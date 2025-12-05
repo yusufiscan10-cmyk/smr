@@ -9,7 +9,7 @@
     <title>Sumru ❤️</title>
     
     <style>
-        /* --- GENEL AYARLAR (İPHONE 13 & PWA UYUMLU) --- */
+        /* --- GENEL AYARLAR (GÜNCELLENDİ: TAM EKRAN & SCROLL) --- */
         :root { 
             --ios-blur: blur(25px); 
             --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
@@ -18,28 +18,33 @@
             --safe-bottom: env(safe-area-inset-bottom);
         }
 
-        body { 
+                body { 
             margin: 0; padding: 0; 
-            background-color: #111; 
-            display: flex; justify-content: center; align-items: center; 
-            height: 100vh; height: 100dvh; 
-            font-family: var(--font-stack); 
+            background-color: #000; 
+            position: fixed; width: 100%; height: 100%; 
             overflow: hidden; user-select: none; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-        
-        .iphone-frame { 
-            width: 375px; height: 812px; 
-            background: #000; border-radius: 50px; 
-            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
-            border: 12px solid #222; overflow: hidden; 
+            -webkit-tap-highlight-color: transparent;
+            
+            /* İŞTE BU SATIRI EKLE: */
+            font-family: var(--font-stack); 
         }
 
-        @media (max-width: 500px) { 
-            .iphone-frame { width: 100vw; height: 100dvh; border: none; border-radius: 0; } 
-        }
         
-        .wallpaper { width: 100%; height: 100%; background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 50%, #a18cd1 100%); background-size: 200% 200%; position: absolute; top: 0; left: 0; z-index: 0; animation: gradientMove 15s ease infinite alternate; }
+        /* TAM EKRAN AYARI (Mobil Bar Çözümü - 100dvh) */
+        .iphone-frame { 
+            width: 100vw; 
+            height: 100vh; height: 100dvh; 
+            background: #000; border-radius: 0; 
+            position: absolute; top:0; left:0;
+            overflow: hidden; 
+        }
+
+        .wallpaper { 
+            width: 100%; height: 110%; /* Siyahlık kalmasın diye taşırdık */
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 50%, #a18cd1 100%); 
+            background-size: 200% 200%; position: absolute; top: 0; left: 0; z-index: 0; 
+            animation: gradientMove 15s ease infinite alternate; 
+        }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
         
         .screen { 
@@ -48,12 +53,11 @@
             display: flex; flex-direction: column; align-items: center; 
             color: white; z-index: 10; 
             padding-top: max(40px, var(--safe-top)); 
-            padding-bottom: max(20px, var(--safe-bottom)); 
             box-sizing: border-box; 
         }
 
         /* KİLİT EKRANI */
-        #lock-screen { justify-content: flex-start; background: rgba(0,0,0,0.2); }
+        #lock-screen { justify-content: flex-start; background: rgba(0,0,0,0.2); padding-bottom: max(20px, var(--safe-bottom)); }
         .time-container { animation: slideInDown 0.8s ease-out; text-align: center; margin-top: 20px; }
         .time { font-size: 85px; font-weight: 200; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.2); margin: 0; }
         .date { font-size: 22px; font-weight: 500; margin-top: 5px; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -71,14 +75,25 @@
         @keyframes slideInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ANA EKRAN */
-        #home-screen { transform: translateY(100%); justify-content: flex-start; }
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px 15px; width: 90%; margin-top: 30px; }
+        /* ANA EKRAN (KAYDIRMA SORUNU ÇÖZÜLDÜ) */
+        #home-screen { 
+            transform: translateY(100%); 
+            display: block; /* Flex iptal, normal akış */
+            overflow-y: auto; /* Kaydırma açık */
+            -webkit-overflow-scrolling: touch; /* iOS akıcı kaydırma */
+            padding-bottom: 150px; /* Dock payı */
+            padding-top: max(40px, var(--safe-top));
+        }
+
+        .app-grid { 
+            display: grid; grid-template-columns: repeat(4, 1fr); 
+            gap: 25px 15px; width: 90%; margin: 10px auto 0; 
+        }
         .app-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.1s; }
         .app-icon:active { transform: scale(0.9); }
         .icon-box { width: 62px; height: 62px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-size: 30px; color: white; margin-bottom: 6px; box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
         .icon-label { font-size: 12px; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
-        .dock { position: absolute; bottom: max(30px, calc(var(--safe-bottom) + 15px)); width: 90%; height: 95px; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; }
+        .dock { position: absolute; bottom: max(30px, calc(var(--safe-bottom) + 15px)); left: 5%; width: 90%; height: 95px; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; z-index: 50; }
         
         /* İKON RENKLERİ */
         .photos { background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 100%); } .notes { background: linear-gradient(180deg, #fccb90 0%, #d57eeb 100%); }
@@ -90,6 +105,7 @@
         .food-icon-bg { background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%); }
         .fortune-icon-bg { background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%); }
         .quiz-icon-bg { background: linear-gradient(135deg, #FDBB2D 0%, #22C1C3 100%); }
+        .loveflix-icon-bg { background: linear-gradient(180deg, #000 0%, #b81d24 100%); border: 1px solid #333; color: #E50914; font-weight: 900; font-family: 'Arial Black', sans-serif; } 
 
         /* MODAL */
         .app-modal { 
@@ -352,8 +368,7 @@
         .fortune-hint { font-size: 14px; opacity: 0.7; margin-top: 20px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        /* --- QUIZ UYGULAMASI (GÜNCELLENDİ) --- */
-        /* HATA ÇÖZÜMÜ: Gradient background'u ana kapsayıcıya verdik, header ve content'i şeffaf yaptık */
+        /* --- QUIZ UYGULAMASI --- */
         #app-quiz { background: linear-gradient(to bottom, #2c3e50, #4ca1af); }
         #app-quiz .modal-content { background: transparent; color: white; display: flex; flex-direction: column; align-items: center; padding: 30px 20px; }
         #app-quiz .modal-header { background: transparent; border: none; color: white; }
@@ -379,6 +394,536 @@
         
         @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-10px);} 75% {transform: translateX(10px);} }
         @keyframes pop { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
+
+        /* --- LOVEFLIX UYGULAMASI --- */
+        #app-loveflix { background: #000; }
+        #app-loveflix .modal-content { 
+            background: #000; color: white; padding: 0; 
+            overflow-y: scroll; /* Scroll'u zorla */
+            -webkit-overflow-scrolling: touch; /* iOS akıcı kaydırma */
+            height: 100%;
+            position: relative;
+            padding-bottom: 80px; /* En alt içeriğin görünmesi için boşluk */
+        }
+        
+        #app-loveflix .modal-header { 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%); 
+            border: none; z-index: 50; 
+            position: absolute; width: 100%; top: 0; left: 0;
+            padding-top: max(30px, var(--safe-top)); 
+            height: 80px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding-left: 15px; padding-right: 15px; box-sizing: border-box;
+        }
+        
+        #app-loveflix .header-logo {
+            position: absolute; left: 50%; 
+            top: 60%; 
+            transform: translate(-50%, -50%);
+            color: #E50914; font-weight: 900; font-size: 32px; 
+            letter-spacing: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            font-family: 'Arial Black', sans-serif;
+            pointer-events: none;
+        }
+
+        #app-loveflix .close-btn { 
+            color: white; background: rgba(255,255,255,0.2); 
+            border-radius: 50%; width: 35px; height: 35px; 
+            display: flex; justify-content: center; align-items: center; 
+            padding: 0; backdrop-filter: blur(5px); font-size: 18px; z-index: 51;
+            border: none; cursor: pointer;
+        }
+
+        .hero-section {
+            position: relative; height: 65vh; 
+            width: 100%;
+            background: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1000') no-repeat center center/cover;
+            display: flex; flex-direction: column; justify-content: flex-end; 
+            padding: 20px; box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 50%, #000 100%);
+        }
+        .hero-content { position: relative; z-index: 10; text-align: center; width: 100%; margin-bottom: 10px; display: flex; flex-direction: column; align-items: center; }
+        .hero-title { font-size: 42px; font-weight: 900; margin-bottom: 5px; line-height: 1; text-transform: uppercase; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0,0,0,1); }
+        .hero-meta { font-size: 13px; color: #46d369; font-weight: 700; margin-bottom: 15px; text-shadow: 0 1px 2px rgba(0,0,0,1); }
+        .hero-desc { font-size: 14px; color: #eee; margin-bottom: 20px; line-height: 1.4; max-width: 95%; text-shadow: 0 1px 2px rgba(0,0,0,1); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .hero-actions { display: flex; gap: 15px; justify-content: center; width: 100%; }
+        .play-btn { background: white; color: black; border: none; padding: 10px 25px; border-radius: 4px; font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.2s; }
+        .play-btn:active { transform: scale(0.95); }
+        .list-btn { background: rgba(109, 109, 110, 0.8); color: white; border: none; padding: 10px 25px; border-radius: 4px; font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.2s; backdrop-filter: blur(5px); }
+        .list-btn:active { transform: scale(0.95); }
+
+        .netflix-row { padding: 0 0 30px 20px; width: 100%; box-sizing: border-box; }
+        .row-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #e5e5e5; }
+        .row-posters { 
+            display: flex; gap: 10px; 
+            overflow-x: auto; 
+            padding-right: 20px; padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch; 
+            scrollbar-width: none; 
+        }
+        .row-posters::-webkit-scrollbar { display: none; }
+        .poster { width: 110px; height: 160px; border-radius: 6px; object-fit: cover; flex-shrink: 0; transition: transform 0.2s; cursor: pointer; }
+        .poster:active { transform: scale(0.95); opacity: 0.8; }
+
+        #hidden-token-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 200;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; text-align: center; box-sizing: border-box;
+        }
+        .token-coin {
+            font-size: 120px; animation: spinCoin 3s infinite linear;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6)); margin-bottom: 20px;
+        }
+        .token-title { font-size: 28px; font-weight: 900; color: #ffce00; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .token-msg { font-size: 18px; font-weight: normal; color: white; line-height: 1.5; opacity: 0.9; }
+        .token-btn { margin-top: 30px; padding: 15px 40px; background: #E50914; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 18px; box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4); cursor: pointer;}
+        @keyframes spinCoin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+        /* --- KAZI KAZAN STİLLERİ --- */
+        #app-scratch .modal-content {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        #app-scratch .modal-header { background: rgba(0,0,0,0.5); border-bottom: 1px solid rgba(255,255,255,0.1); color: white; }
+        #app-scratch .close-btn { color: white; background: rgba(255,255,255,0.2); }
+        #app-scratch .modal-header span { color: #FDC830; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+
+        .scratch-container {
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .scratch-header h3 { margin: 0 0 10px; font-size: 24px; color: #FDC830; }
+        .scratch-header p { margin: 0 0 30px; opacity: 0.7; }
+
+        .scratch-card-wrapper {
+            position: relative;
+            width: 300px;
+            height: 180px;
+            margin: 0 auto 40px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 4px solid #FDC830;
+            background: white;
+        }
+
+        .scratch-prize {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 20px;
+            font-weight: 800;
+            color: #333;
+            background: radial-gradient(circle, #fff 0%, #ddd 100%);
+            z-index: 1;
+        }
+
+        #scratch-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 2;
+            cursor: pointer;
+            touch-action: none; 
+        }
+
+        .reset-scratch-btn {
+            padding: 15px 30px;
+            background: linear-gradient(to right, #FDC830, #F37335);
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(243, 115, 53, 0.4);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .reset-scratch-btn:active { transform: scale(0.95); }
+
+        .scratch-note { margin-top: 30px; opacity: 0.5; font-style: italic; font-size: 12px; }
+
+        /* --- PANIC BUTTON STİLLERİ --- */
+        #app-panic .modal-content {
+            background-color: #000;
+            background-image: repeating-linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #111 75%, #111), repeating-linear-gradient(45deg, #111 25%, #000 25%, #000 75%, #111 75%, #111);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+            color: #ff3333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .panic-stage {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .warning-text {
+            font-size: 14px;
+            color: #ff0000;
+            background: rgba(50,0,0,0.8);
+            padding: 10px 20px;
+            border: 1px solid #ff0000;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            animation: blinkText 1s infinite;
+            text-align: center;
+        }
+
+        .big-red-button-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .big-red-button {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 30% 30%, #ff5e57, #ff0000);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            font-weight: 900;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.6), inset 0 5px 10px rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.1s;
+            border: 5px solid #800000;
+        }
+
+        .big-red-button:active {
+            transform: scale(0.95) translateY(5px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.8);
+        }
+
+        .button-shadow {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 180px;
+            height: 180px;
+            background: #500000;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        #panic-overlay-light {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: red;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .panic-active #panic-overlay-light {
+            animation: sirenLight 1s infinite;
+        }
+
+        .panic-status {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            background: #d32f2f;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px #d32f2f;
+        }
+
+        .panic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 90%;
+        }
+
+        .panic-item {
+            background: rgba(50, 0, 0, 0.8);
+            border: 2px solid #ff3333;
+            border-radius: 10px;
+            padding: 15px 5px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+        }
+
+        .panic-item:active {
+            background: #ff3333;
+            transform: scale(0.95);
+            box-shadow: 0 0 20px red;
+        }
+
+        @keyframes blinkText { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes sirenLight { 0%, 100% { opacity: 0; } 50% { opacity: 0.3; } }
+
+        /* PANİK BUTONU GEÇİŞ EFEKTLERİ */
+        .stage-fade-out { animation: fadeOutScale 0.6s forwards; }
+        .stage-fade-in { animation: fadeInScale 0.6s forwards; display: flex !important; opacity: 0; }
+        
+        @keyframes fadeOutScale {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- ZENLOVE (PREMIUM MEDITASYON & DOKUNUŞ) --- */
+        #app-zen { background: #0f0c29; }
+        #app-zen .modal-content {
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: white;
+            display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;
+            padding: 20px;
+        }
+        #app-zen .modal-header { background: transparent; border: none; color: rgba(255,255,255,0.8); }
+        #app-zen .close-btn { color: white; background: rgba(255,255,255,0.1); border-radius: 50%; width: 32px; height: 32px; padding: 0; display:flex; align-items:center; justify-content:center;}
+
+        /* Zen Sekme Yapısı */
+        .zen-tabs { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 4px; margin-bottom: 20px; }
+        .zen-tab { padding: 8px 20px; border-radius: 16px; font-size: 14px; font-weight: 600; color: #aaa; cursor: pointer; transition: all 0.3s; }
+        .zen-tab.active { background: rgba(255,255,255,0.2); color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+
+        /* Zen Nefes */
+        .breath-container { position: relative; width: 220px; height: 220px; display: flex; justify-content: center; align-items: center; }
+        .breath-circle {
+            position: absolute; width: 100%; height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(104, 109, 224, 0.4) 0%, rgba(104, 109, 224, 0.0) 70%);
+            transform: scale(0.8);
+            box-shadow: 0 0 30px rgba(104, 109, 224, 0.3);
+        }
+        .breath-text { font-size: 22px; font-weight: 300; letter-spacing: 2px; z-index: 10; opacity: 0.9; text-transform: uppercase; }
+        .breathing .breath-circle { animation: breatheAnim 8s infinite ease-in-out; }
+        .breathing .breath-text { animation: textFade 8s infinite ease-in-out; }
+
+        @keyframes breatheAnim { 
+            0%, 100% { transform: scale(0.8); opacity: 0.5; } 
+            50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 60px rgba(104, 109, 224, 0.6); } 
+        }
+        @keyframes textFade { 
+            0%, 100% { content: "Nefes Ver"; opacity: 0.7; } 
+            50% { content: "Nefes Al"; opacity: 1; } 
+        }
+
+        /* Zen Dokunuş */
+        .touch-area {
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255,255,255,0.2);
+            display: flex; justify-content: center; align-items: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.5s;
+            user-select: none; -webkit-touch-callout: none;
+        }
+        .touch-icon { font-size: 50px; opacity: 0.5; transition: 0.3s; }
+        .touch-hint { margin-top: 20px; font-size: 14px; color: #888; text-align: center; }
+
+        .touch-area.active {
+            border-color: #ff2d55;
+            background: radial-gradient(circle, rgba(255, 45, 85, 0.2) 0%, transparent 70%);
+            box-shadow: 0 0 50px rgba(255, 45, 85, 0.4);
+            animation: heartbeat 1.2s infinite;
+        }
+        .touch-area.active .touch-icon { transform: scale(1.2); opacity: 1; text-shadow: 0 0 20px #ff2d55; }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); } 15% { transform: scale(1.05); } 30% { transform: scale(1); } 45% { transform: scale(1.05); } 60% { transform: scale(1); } 100% { transform: scale(1); }
+        }
+
+        .zen-quote { font-style: italic; opacity: 0.7; text-align: center; max-width: 80%; line-height: 1.6; margin-top: 30px; font-size: 15px; }
+
+/* --- AURA (PREMIUM KOMBİN) STİLLERİ --- */
+#app-aura .modal-content {
+    background: #faf9f6; /* Premium Kağıt Rengi */
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.aura-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Giriş Ekranı */
+.aura-hero { margin-bottom: 30px; text-align: center; margin-top: 20px; }
+.aura-hero h1 { font-family: 'Didot', serif; font-size: 32px; color: #111; margin-bottom: 5px; letter-spacing: -0.5px; }
+.aura-hero p { color: #888; font-size: 14px; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; }
+
+.aura-selection-group { margin-bottom: 25px; }
+.aura-selection-group label { display: block; font-size: 13px; font-weight: 700; color: #999; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+.chip-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+.chip-container::-webkit-scrollbar { display: none; }
+
+.chip {
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+.chip.active {
+    background: #111;
+    color: white;
+    border-color: #111;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.aura-generate-btn {
+    margin-top: auto; margin-bottom: 40px;
+    width: 100%; padding: 18px;
+    background: linear-gradient(135deg, #111 0%, #333 100%);
+    color: white; border: none; border-radius: 15px;
+    font-size: 16px; font-weight: 600; letter-spacing: 1px;
+    cursor: pointer; position: relative; overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+}
+.aura-generate-btn:active { transform: scale(0.98); }
+
+/* AI Loading Animasyonu */
+.ai-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #ff9a9e, #fad0c4, #fad0c4, #a18cd1, #ff9a9e);
+    filter: blur(10px);
+    animation: spinAI 2s linear infinite;
+    margin-bottom: 20px;
+}
+@keyframes spinAI { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.ai-status { font-size: 18px; font-weight: 700; color: #333; margin-bottom: 5px; }
+.ai-details { font-size: 13px; color: #888; font-family: monospace; }
+
+/* Sonuç Kartı */
+.outfit-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    height: 100%;
+    display: flex; flex-direction: column;
+}
+.outfit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.match-rate { background: #d4fc79; color: #2ecc71; padding: 5px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; color: #333; }
+.refresh-icon { background: none; border: none; font-size: 20px; cursor: pointer; }
+
+.outfit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1.5fr 1fr;
+    gap: 10px;
+    flex: 1;
+}
+.outfit-item {
+    background: #f8f8f8;
+    border-radius: 15px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 10px;
+    position: relative; overflow: hidden;
+}
+.main-piece { grid-column: span 2; background: #fff5f5; }
+.item-icon { font-size: 35px; margin-bottom: 5px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
+.item-name { font-size: 13px; font-weight: 600; color: #444; line-height: 1.2; }
+
+.color-palette-bar { display: flex; height: 25px; border-radius: 12px; overflow: hidden; margin: 15px 0; border: 1px solid rgba(0,0,0,0.05);}
+.color-swatch { flex: 1; height: 100%; }
+
+.stylist-note h4 { margin: 0 0 5px; font-size: 12px; color: #999; text-transform: uppercase; }
+.stylist-note p { margin: 0; font-size: 13px; color: #333; font-style: italic; line-height: 1.4; }
+
+.whatsapp-share-btn {
+    margin-top: 15px; width: 100%; padding: 12px;
+    background: white; color: #333;
+    border: 1px solid #333; border-radius: 12px;
+    font-weight: 700; cursor: pointer;
+}
+/* Aura Butonu İçin Özel Işıltı Efekti */
+.aura-generate-btn {
+    /* Eski stilleri koru, bunu ekle: */
+    background: linear-gradient(135deg, #2b1055 0%, #7597de 100%); /* Daha mistik bir mor */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.aura-generate-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    transition: 0.5s;
+    animation: shimmerBtn 3s infinite;
+}
+
+@keyframes shimmerBtn {
+    0% { left: -100%; }
+    20% { left: 100%; }
+    100% { left: 100%; }
+}
+
 
     </style>
 </head>
@@ -412,6 +957,25 @@
                 <div class="app-icon" onclick="openApp('food')"><div class="icon-box food-icon-bg">🍔</div><span class="icon-label">Aşk Mutfağı</span></div>
                 <div class="app-icon" onclick="openApp('fortune')"><div class="icon-box fortune-icon-bg">🔮</div><span class="icon-label">Falcı</span></div>
                 <div class="app-icon" onclick="openApp('quiz')"><div class="icon-box quiz-icon-bg">🧠</div><span class="icon-label">Beni Tanı</span></div>
+                <div class="app-icon" onclick="openApp('loveflix')"><div class="icon-box loveflix-icon-bg">L</div><span class="icon-label">Loveflix</span></div>
+                <div class="app-icon" onclick="openApp('scratch')">
+                    <div class="icon-box" style="background: linear-gradient(135deg, #FDC830 0%, #F37335 100%); font-size: 28px;">🎰</div>
+                    <span class="icon-label">Şanslısın</span>
+                </div>
+                <div class="app-icon" onclick="openApp('panic')">
+                    <div class="icon-box" style="background: radial-gradient(circle, #ff4b1f 0%, #ff9068 100%); font-size: 28px; border: 2px solid white;">🚨</div>
+
+                    <span class="icon-label" style="color:#ff4b1f; font-weight:bold;">ACİL</span>
+                </div>
+                <div class="app-icon" onclick="openApp('zen')">
+                    <div class="icon-box" style="background: linear-gradient(180deg, #4834d4 0%, #686de0 100%); font-size: 28px;">🧘‍♀️</div>
+                    <span class="icon-label">ZenLove</span>
+                </div>
+<div class="app-icon" onclick="openApp('aura')">
+    <div class="icon-box" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); font-size: 28px; border: 1px solid rgba(255,255,255,0.5);">👗</div>
+    <span class="icon-label">Aura</span>
+</div>
+
             </div>
             <div class="dock">
                 <div class="app-icon" onclick="openApp('phone')"><div class="icon-box" style="background:#4CD964; font-size:24px;">📞</div></div>
@@ -575,6 +1139,129 @@
             </div>
         </div>
 
+        <div id="app-loveflix" class="app-modal">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeApp('loveflix')">✕</button>
+                <div class="header-logo">LOVEFLIX</div>
+                <div style="width:35px;"></div> </div>
+
+            <div id="hidden-token-overlay">
+                <div class="token-coin" id="token-emoji">🪙</div>
+                <div class="token-title" id="token-title">TEBRİKLER!</div>
+                <div class="token-msg" id="token-desc">Gizli bir jeton buldun!</div>
+                <button class="token-btn" onclick="closeTokenOverlay()">Cüzdana Ekle</button>
+            </div>
+
+            <div class="modal-content">
+                <div class="hero-section">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <div class="hero-title">BİZİM HİKAYEMİZ</div>
+                        <div class="hero-meta">%98 Eşleşme • 2022 • Romantik • 3 Sezon</div>
+                        <div class="hero-desc">İki kalbin tesadüflerle başlayıp sonsuzluğa uzanan muhteşem hikayesi. Başrollerde Sumru ve Kocası var.</div>
+                        <div class="hero-actions">
+                            <button class="play-btn" onclick="playLoveflix()">▶ Oynat</button>
+                            <button class="list-btn">➕ Listem</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="netflix-row">
+                    <div class="row-title">Sumru'nun Favorileri</div>
+                    <div class="row-posters">
+                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500" class="poster" onclick="findHiddenToken(this)">
+                        <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500" class="poster" onclick="findHiddenToken(this)">
+                        <img src="https://images.unsplash.com/photo-1535016120720-40c6874c3b1c?w=500" class="poster" onclick="findHiddenToken(this)">
+                        <img src="https://images.unsplash.com/photo-1517604931442-71053e3e2c28?w=500" class="poster" onclick="findHiddenToken(this)">
+                    </div>
+                </div>
+
+                <div class="netflix-row">
+                    <div class="row-title">Kocanın Seçtikleri</div>
+                    <div class="row-posters">
+                        <img src="https://images.unsplash.com/photo-1596727147705-54a9d6ed27e6?w=500" class="poster" onclick="findHiddenToken(this)">
+                        <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=500" class="poster" onclick="findHiddenToken(this)">
+                        <img src="https://images.unsplash.com/photo-1585647347384-2593bc35786b?w=500" class="poster" onclick="findHiddenToken(this)">
+                    </div>
+                </div>
+
+                <div class="netflix-row">
+                    <div class="row-title">Birlikte İzleyelim</div>
+                    <div class="row-posters">
+                        <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e63?w=500" class="poster" onclick="findHiddenToken(this)">
+                        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500" class="poster" onclick="findHiddenToken(this)">
+                        <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=500" class="poster" onclick="findHiddenToken(this)">
+                    </div>
+                </div>
+                
+                <div style="height: 50px;"></div>
+            </div>
+        </div>
+
+        <div id="app-scratch" class="app-modal">
+            <div class="modal-header">
+                <span>Şanslı Kazı Kazan</span>
+                <button class="close-btn" onclick="closeApp('scratch')">Kapat</button>
+            </div>
+            <div class="modal-content">
+                <div class="scratch-container">
+                    <div class="scratch-header">
+                        <h3>Bugün şansına ne çıkacak?</h3>
+                        <p>Parmağınla gri alanı kazı!</p>
+                    </div>
+                    
+                    <div class="scratch-card-wrapper">
+                        <div class="scratch-prize" id="scratch-prize-text">
+                            <span style="font-size:40px;">🎁</span><br>
+                            Yükleniyor...
+                        </div>
+                        <canvas id="scratch-canvas"></canvas>
+                    </div>
+
+                    <button class="reset-scratch-btn" onclick="resetScratchCard()">🔄 Yeni Kart Çek</button>
+                    
+                    <div class="scratch-note">
+                        <small>*Çıkan sonuç kesinlikle uygulanmalıdır. İtiraz kabul edilmez! 😎</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="app-panic" class="app-modal">
+            <div class="modal-header" style="background: #1a0000; border-bottom: 1px solid #330000;">
+                <span style="color: #ff0000; letter-spacing: 1px;">KIRMIZI KOD</span>
+                <button class="close-btn" onclick="closeApp('panic')" style="color: white;">✕</button>
+            </div>
+            <div class="modal-content">
+                <div id="panic-overlay-light"></div>
+                
+                <div id="panic-stage-1" class="panic-stage">
+                    <div class="warning-text">DİKKAT: SADECE ACİL DURUMLARDA BASINIZ</div>
+                    <div class="big-red-button-container" onclick="activatePanicMode()">
+                        <div class="big-red-button">
+                            <span>BAS</span>
+                        </div>
+                        <div class="button-shadow"></div>
+                    </div>
+                </div>
+
+                <div id="panic-stage-2" class="panic-stage" style="display:none;">
+                    <div class="panic-status">⚠️ KRİZ MASASI DEVREDE ⚠️</div>
+                    <div class="panic-grid">
+                        <div class="panic-item" onclick="sendPanicWhatsapp('ÇİKOLATA KRİZİ')">🍫<br>Acil Çikolata</div>
+                        <div class="panic-item" onclick="sendPanicWhatsapp('DEDİKODU VAR')">🗣️<br>Acil Dedikodu</div>
+                        <div class="panic-item" onclick="sendPanicWhatsapp('BÖCEK İMHASI')">🕷️<br>Böcek Var!</div>
+                        <div class="panic-item" onclick="sendPanicWhatsapp('SEVGİ EKSİKLİĞİ')">🫂<br>Sarılma Lazım</div>
+                        <div class="panic-item" onclick="sendPanicWhatsapp('AÇLIKTAN ÖLÜYORUM')">🍔<br>Çok Açım</div>
+                        <div class="panic-item" onclick="sendPanicWhatsapp('KREDİ KARTI LİMİTİ')">💸<br>Limit Aç</div>
+                        <div class="panic-item" onclick="sendPanicWhatsapp('CAN SIKINTISI')">🥱<br>Kaçır Beni</div>
+                        <div class="panic-item" onclick="sendPanicWhatsapp('TRİP ATICAM')">😒<br>Trip Modu</div>
+                        <div class="panic-item" onclick="sendPanicWhatsapp('KAOS ÇIKTI')">🔥<br>Kaos Var</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="app-maps" class="app-modal">
             <div class="modal-header"><span>Konum</span><button class="close-btn" onclick="closeApp('maps')">Kapat</button></div>
             <div class="modal-content" style="padding:20px;">
@@ -647,11 +1334,118 @@
             <div id="counter-layer"><div style="font-size:100px;">💍</div><h1 style="color:white; margin-top:20px; padding:0 20px;">24'ünde seni sevdim,<br>daha da bırakmam!</h1><div style="font-size:14px; margin-top:30px; opacity:0.8; color:white; border:1px solid white; padding:5px 15px; border-radius:20px;" onclick="closeCounterLayer()">Seni Seviyorum</div></div>
         </div>
 
+        <div id="app-zen" class="app-modal">
+            <div class="modal-header"><span></span><button class="close-btn" onclick="closeApp('zen')">✕</button></div>
+            <div class="modal-content">
+                <div class="zen-tabs">
+                    <div class="zen-tab active" onclick="switchZenTab('breath')" id="tab-breath">Nefes</div>
+                    <div class="zen-tab" onclick="switchZenTab('touch')" id="tab-touch">Bağ Kur</div>
+                </div>
+                <div id="zen-view-breath" style="display:flex; flex-direction:column; align-items:center;">
+                    <div class="breath-container breathing"><div class="breath-circle"></div><div class="breath-circle" style="animation-delay: 0.5s; opacity:0.3;"></div><div class="breath-text" id="breath-label">BAŞLA</div></div>
+                    <p style="margin-top: 40px; text-align:center; color:#aaa; font-size:14px;">Halkayla birlikte nefes al,<br>sakinleş sevgilim...</p>
+                </div>
+                <div id="zen-view-touch" style="display:none; flex-direction:column; align-items:center;">
+                    <div class="touch-area" id="touch-pad" onmousedown="startTouch()" onmouseup="endTouch()" ontouchstart="startTouch()" ontouchend="endTouch()"><div class="touch-icon">👆</div></div>
+                    <p class="touch-hint" id="touch-msg">Parmağını basılı tut ve<br>kalp atışımı hisset...</p>
+                </div>
+                <div class="zen-quote">"Senin huzurun, benim dünyam."</div>
+            </div>
+        </div>
+<div id="app-aura" class="app-modal">
+    <div class="modal-header" style="background: rgba(255,255,255,0.9); border-bottom: 1px solid rgba(0,0,0,0.05);">
+        <span style="font-family: 'Didot', serif; font-size: 22px; letter-spacing: 2px; color:#333;">AURA</span>
+        <button class="close-btn" onclick="closeApp('aura')" style="color:#333; background:rgba(0,0,0,0.05);">✕</button>
     </div>
 
-    <script>
+    <div class="modal-content" style="background: #faf9f6;">
+        
+        <div id="aura-input-view" class="aura-view">
+            <div class="aura-hero">
+                <h1>Bugün Modun Ne?</h1>
+                <p>Senin için trendleri tarıyorum...</p>
+            </div>
+
+            <div class="aura-selection-group">
+                <label>Nereye Gidiyoruz?</label>
+                <div class="chip-container">
+                    <div class="chip active" onclick="selectAuraFilter(this, 'place', 'cafe')">☕ Kahve</div>
+                    <div class="chip" onclick="selectAuraFilter(this, 'place', 'date')">❤️ Date</div>
+                    <div class="chip" onclick="selectAuraFilter(this, 'place', 'work')">💼 Ofis</div>
+                    <div class="chip" onclick="selectAuraFilter(this, 'place', 'party')">✨ Parti</div>
+                    <div class="chip" onclick="selectAuraFilter(this, 'place', 'home')">🏠 Ev Keyfi</div>
+                </div>
+            </div>
+
+            <div class="aura-selection-group">
+                <label>Hava Nasıl?</label>
+                <div class="chip-container">
+                    <div class="chip active" onclick="selectAuraFilter(this, 'weather', 'sunny')">☀️ Güneşli</div>
+                    <div class="chip" onclick="selectAuraFilter(this, 'weather', 'cloudy')">☁️ Serin</div>
+                    <div class="chip" onclick="selectAuraFilter(this, 'weather', 'rainy')">☔ Yağmurlu</div>
+                    <div class="chip" onclick="selectAuraFilter(this, 'weather', 'cold')">❄️ Soğuk</div>
+                </div>
+            </div>
+
+            <button class="aura-generate-btn" onclick="startAuraAI()">
+                <span>Sihri Başlat ✨</span>
+            </button>
+        </div>
+
+        <div id="aura-loading-view" class="aura-view" style="display:none; justify-content:center; align-items:center; text-align:center;">
+            <div class="ai-circle"></div>
+            <div class="ai-status" id="ai-status-text">Trendler Taranıyor...</div>
+        </div>
+
+        <div id="aura-result-view" class="aura-view" style="display:none;">
+            <div class="outfit-card">
+                <div class="outfit-header">
+                    <span class="match-rate">%98 EŞLEŞME</span>
+                    <button class="refresh-icon" onclick="startAuraAI(true)">🔄</button>
+                </div>
+                
+                <div class="outfit-grid">
+                    <div class="outfit-item main-piece" id="res-top">
+                        <div class="item-icon">👚</div>
+                        <div class="item-name">Yükleniyor...</div>
+                    </div>
+                    <div class="outfit-item sub-piece" id="res-bottom">
+                        <div class="item-icon">👖</div>
+                        <div class="item-name">...</div>
+                    </div>
+                    <div class="outfit-item acc-piece" id="res-shoes">
+                        <div class="item-icon">👠</div>
+                        <div class="item-name">...</div>
+                    </div>
+                    <div class="outfit-item acc-piece" id="res-bag">
+                        <div class="item-icon">👜</div>
+                        <div class="item-name">...</div>
+                    </div>
+                    <div class="outfit-item acc-piece" id="res-jewelry">
+                        <div class="item-icon">💍</div>
+                        <div class="item-name">...</div>
+                    </div>
+                </div>
+
+                <div class="color-palette-bar" id="res-palette"></div>
+
+                <div class="stylist-note">
+                    <h4>Stilist Notu ✍️</h4>
+                    <p id="res-note">...</p>
+                </div>
+                
+                <button class="whatsapp-share-btn" onclick="shareOutfit()">
+                    Kocana Fikrini Sor 💬
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
         function updateTime(){const n=new Date();document.getElementById('clock').innerText=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');document.getElementById('date').innerText=n.toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'});const s=new Date("2022-10-24");const d=Math.ceil(Math.abs(n-s)/(1000*60*60*24));document.getElementById('days-counter').innerText=d+" Gündür";}setInterval(updateTime,1000);updateTime();
         function unlockPhone(){document.getElementById('lock-screen').style.transform='translateY(-100%)';document.getElementById('home-screen').style.transform='translateY(0)';}
+        
         function openApp(id){
             document.getElementById('app-'+id).classList.add('active');
             if(id==='messages')loadMessages();
@@ -659,8 +1453,12 @@
             if(id==='phone')loadCalls();
             if(id==='heart')resetHeartApp();
             if(id==='quiz')restartQuiz();
+            if(id==='scratch')initScratchCard();
+            if(id==='panic') resetPanicMode();
+            if(id==='zen') switchZenTab('breath'); // YENİ EKLENDİ
         }
-        function closeApp(id){document.getElementById('app-'+id).classList.remove('active');if(id==='heart')stopRain();}
+
+        function closeApp(id){document.getElementById('app-'+id).classList.remove('active');if(id==='heart')stopRain(); if(id==='zen')stopBreathingText();} // ZEN DÜZELTMESİ EKLENDİ
         function toggleNoteMode(){const r=document.getElementById('note-read-mode');const w=document.getElementById('note-write-mode');if(r.style.display!=='none'){r.style.display='none';w.style.display='block';document.getElementById('note-title').innerText='Cevap Yaz';}else{r.style.display='block';w.style.display='none';document.getElementById('note-title').innerText='Mektup';}}
         function sendWhatsapp(){var m=document.getElementById('reply-text').value;if(m.trim()===""){alert("Lütfen önce güzel bir şeyler yaz :)");return;}window.location.href="https://wa.me/905315581447?text="+encodeURIComponent(m);}
         var audio=document.getElementById('bg-music');function toggleMusic(){if(audio.paused){audio.play();document.getElementById('play-btn').innerText='⏸️';}else{audio.pause();document.getElementById('play-btn').innerText='▶️';}}
@@ -711,7 +1509,6 @@
         const loveExplosion = document.getElementById('love-explosion-overlay');
         let sunTimer;
 
-        // Tıklama (Basılı tutma) olayları
         sunIcon.addEventListener('mousedown', startSunPress);
         sunIcon.addEventListener('touchstart', startSunPress);
         sunIcon.addEventListener('mouseup', endSunPress);
@@ -720,23 +1517,14 @@
 
         function startSunPress(e) {
             e.preventDefault();
-            sunIcon.classList.add('growing'); // Büyüme animasyonu
-            
-            // 2 saniye sonra patlama
+            sunIcon.classList.add('growing');
             sunTimer = setTimeout(() => {
                 loveExplosion.classList.add('visible');
                 sunIcon.classList.remove('growing');
-                // 3 saniye sonra ekranı temizle
-                setTimeout(() => {
-                    loveExplosion.classList.remove('visible');
-                }, 3000);
+                setTimeout(() => { loveExplosion.classList.remove('visible'); }, 3000);
             }, 2000);
         }
-
-        function endSunPress() {
-            clearTimeout(sunTimer); // Süre dolmadan bırakırsa iptal
-            sunIcon.classList.remove('growing');
-        }
+        function endSunPress() { clearTimeout(sunTimer); sunIcon.classList.remove('growing'); }
 
         // AŞK ÇARKI MANTIĞI
         const wheel = document.getElementById('wheel');
@@ -758,9 +1546,7 @@
 
             setTimeout(() => {
                 const actualDeg = currentDeg % 360;
-                // Pointer'ın altındaki açıyı bul (0-359 arası)
                 const angleUnderPointer = (360 - actualDeg) % 360;
-                // 36 derecelik dilimlere böl
                 const finalSegment = Math.floor(angleUnderPointer / 36);
 
                 const options = [
@@ -771,7 +1557,6 @@
                 ];
                 resIcon.innerText = options[finalSegment].i; resText.innerText = options[finalSegment].t;
                 
-                // --- RASTGELE CEVAPLAR ---
                 const buttonTexts = [
                     "Tamam Aşko 💖", "Hemen Yapıyorum! 🏃‍♂️", "Emrin Olur Prenses 👑", 
                     "Anlaştık! 🤝", "Zevkle! 😍", "Şansıma Küs! 😂", "Hadi Bakalım! 🔥",
@@ -795,16 +1580,11 @@
         }
         function closeResultPopup() { resOverlay.classList.remove('visible'); spinBtn.disabled = false; isSpinning = false; }
 
-        // AYARLAR ETKİLEŞİMİ (DÜZELTİLDİ: UÇAK MODU AÇ KAPA)
+        // AYARLAR ETKİLEŞİMİ
         function toggleAirplaneMode() {
             const sw = document.getElementById('airplane-switch');
-            sw.checked = !sw.checked; // Checkbox durumunu değiştir
-            
-            if(sw.checked) {
-                alert("✈️ Uçuşa geçildi! Şu an yerle irtibat kesildi, sadece seninle havadayız aşkım.");
-            } else {
-                alert("🌍 Yere iniş yapıldı ama aklım hala bulutların üzerinde...");
-            }
+            sw.checked = !sw.checked; 
+            if(sw.checked) { alert("✈️ Uçuşa geçildi! Şu an yerle irtibat kesildi, sadece seninle havadayız aşkım."); } else { alert("🌍 Yere iniş yapıldı ama aklım hala bulutların üzerinde..."); }
         }
 
         // CÜZDAN KUPON MANTIĞI
@@ -834,22 +1614,18 @@
             document.getElementById('coupon-detail-overlay').classList.add('visible');
         }
 
-        function closeCoupon() {
-            document.getElementById('coupon-detail-overlay').classList.remove('visible');
-        }
+        function closeCoupon() { document.getElementById('coupon-detail-overlay').classList.remove('visible'); }
 
         function useCoupon() {
             if(currentCouponIndex === -1) return;
             const c = coupons[currentCouponIndex];
             const message = `Aşkım! ❤️ Şu kuponumu kullanmak istiyorum: \n\n🎫 *${c.t}*\n📝 ${c.d}`;
-            
             alert(`🎉 Harika seçim aşkım! "${c.t}" kuponu işleme alındı.\n\nKocan hazırlanmaya başlasın... 😉`);
             window.location.href = `https://api.whatsapp.com/send?phone=905315581447&text=${encodeURIComponent(message)}`;
-            
             closeCoupon();
         }
 
-        // --- AŞK MUTFAĞI MANTIĞI ---
+        // AŞK MUTFAĞI
         const foodMenu = {
             1: {n: "Kocan Burger", p: "1 Öpücük"},
             2: {n: "Romantik Makarna", p: "Sımsıkı Sarılma"},
@@ -861,116 +1637,60 @@
             9: {n: "Çıtır Lahmacun", p: "Salata Benden"},
             10: {n: "Sıcak Sufle", p: "Kahve Yanına"}
         };
-        const foodCart = {}; // Sepet verisi
+        const foodCart = {}; 
 
         function updateFood(id, change) {
             if (!foodCart[id]) foodCart[id] = 0;
             foodCart[id] += change;
             if (foodCart[id] < 0) foodCart[id] = 0;
-
-            // UI Güncelleme (Sayı ve Buton Görünürlüğü)
-            const qtySpan = document.getElementById('qty-' + id);
+            document.getElementById('qty-' + id).innerText = foodCart[id];
             const itemDiv = document.getElementById('item-' + id);
-            
-            qtySpan.innerText = foodCart[id];
-
-            if (foodCart[id] > 0) {
-                itemDiv.classList.add('has-item'); // Eksi butonu ve sayıyı göster
-            } else {
-                itemDiv.classList.remove('has-item'); // Eksi butonu ve sayıyı gizle
-            }
-
+            if (foodCart[id] > 0) { itemDiv.classList.add('has-item'); } else { itemDiv.classList.remove('has-item'); }
             checkCartBar();
         }
 
         function checkCartBar() {
             const bar = document.getElementById('cart-bar');
             let totalItems = 0;
-
-            for (const value of Object.values(foodCart)) {
-                totalItems += value;
-            }
-
-            if (totalItems > 0) {
-                bar.classList.add('active');
-                document.getElementById('cart-total-txt').innerText = "Bolca Aşk & Lezzet";
-            } else {
-                bar.classList.remove('active');
-            }
+            for (const value of Object.values(foodCart)) { totalItems += value; }
+            if (totalItems > 0) { bar.classList.add('active'); document.getElementById('cart-total-txt').innerText = "Bolca Aşk & Lezzet"; } else { bar.classList.remove('active'); }
         }
 
         function sendFoodOrder() {
             let message = "Aşkım acıktım! 😋\nİşte siparişlerim:\n\n";
             let hasItem = false;
-
             for (const [key, value] of Object.entries(foodCart)) {
-                if (value > 0) {
-                    message += `▪️ ${value}x ${foodMenu[key].n}\n`;
-                    hasItem = true;
-                }
+                if (value > 0) { message += `▪️ ${value}x ${foodMenu[key].n}\n`; hasItem = true; }
             }
             message += "\nÖdeme Yöntemi: Kapıda Öpücük 💋\nHemen Bekliyorum!";
-
             if(hasItem) {
                 alert("Siparişin Alındı Prenses! 🚀\n\nKocan hemen hazırlıklara başlıyor... Whatsapp'a yönlendiriliyorsun.");
-                // WhatsApp'a Gönder
                 window.location.href = `https://api.whatsapp.com/send?phone=905315581447&text=${encodeURIComponent(message)}`;
             }
         }
 
-        // --- FALCI MANTIĞI ---
+        // GÜNCELLENMİŞ FALCI (HAFIZALI - TEKRAR YOK)
+        const fortunes = ["3 vakte kadar sana bir sürpriz görünüyor... 🎁", "Geleceğinde çok yakışıklı bir adam var... Aa o benim! 😎", "Bu akşam bulaşıklar kocana kısmet görünüyor. 🍽️", "Yolun açık, sonu nikah tazeleme. 💍", "Aşk hayatın alev alev yanıyor! 🔥", "Bugün şansın çok yüksek, hemen bir dilek tut! ✨", "Falında kocaman bir sarılma çıktı. 🤗", "Gözlerinde bir ışıltı var, sebebi aşk olsa gerek. ❤️", "Kısmetinde Atapark'ta romantik bir yürüyüş var. 🌳", "Kocan seni düşünüyor, kulağın çınlamadı mı? 👂", "Bugün sana bir kahve borcu var. ☕", "Telefonun çalacak, arayan kalbinin sahibi. 📞", "Rüyanda beni göreceksin, kaçış yok! 😴", "Bu hafta sonu ayakların yerden kesilecek. ✈️", "Şu an sarılmaya ihtiyacın var, sinyaller alındı. 📡", "Gönlünün efendisi seni çok özlemiş. 🥰", "Yakında minik bir hediye kapını çalabilir. 🎁", "Yıldızlar diyor ki: Kocan seni çok seviyor. ⭐"];
+        let fortuneHistory = []; 
         const fortuneBall = document.getElementById('crystal-ball');
         const fortuneText = document.getElementById('fortune-text');
         let isFortuneTelling = false;
 
-        const fortunes = [
-            "3 vakte kadar sana bir sürpriz görünüyor... 🎁",
-            "Geleceğinde çok yakışıklı bir adam var... Aa o benim! 😎",
-            "Bu akşam bulaşıklar kocana kısmet görünüyor. 🍽️",
-            "Yolun açık, sonu nikah tazeleme. 💍",
-            "Aşk hayatın alev alev yanıyor! 🔥",
-            "Bugün şansın çok yüksek, hemen bir dilek tut! ✨",
-            "Falında kocaman bir sarılma çıktı. 🤗",
-            "Gözlerinde bir ışıltı var, sebebi aşk olsa gerek. ❤️",
-            "Kısmetinde Atapark'ta romantik bir yürüyüş var. 🌳",
-            "Kocan seni düşünüyor, kulağın çınlamadı mı? 👂",
-            "Bugün sana bir kahve borcu var. ☕",
-            "Telefonun çalacak, arayan kalbinin sahibi. 📞",
-            "Rüyanda beni göreceksin, kaçış yok! 😴",
-            "Bu hafta sonu ayakların yerden kesilecek. ✈️",
-            "Şu an sarılmaya ihtiyacın var, sinyaller alındı. 📡",
-            "Gönlünün efendisi seni çok özlemiş. 🥰",
-            "Birazdan tatlı bir mesaj alabilirsin. 💌",
-            "Kalbindeki kişi seni düşünüp gülümsüyor. 😊",
-            "Yakında minik bir hediye kapını çalabilir. 🎁"
-        ];
-
         function handleFortuneInteraction() {
             if (typeof DeviceMotionEvent.requestPermission === 'function' && localStorage.getItem('motionPermission') !== 'granted') {
-                DeviceMotionEvent.requestPermission()
-                    .then(permissionState => {
-                        if (permissionState === 'granted') {
-                            localStorage.setItem('motionPermission', 'granted');
-                            tellFortune();
-                        }
-                    })
-                    .catch(console.error);
-            } else {
-                tellFortune();
-            }
+                DeviceMotionEvent.requestPermission().then(permissionState => { if (permissionState === 'granted') { localStorage.setItem('motionPermission', 'granted'); tellFortune(); } }).catch(console.error);
+            } else { tellFortune(); }
         }
 
         function tellFortune() {
-            if(isFortuneTelling) return;
-            isFortuneTelling = true;
-            fortuneBall.classList.add('shaking');
-            fortuneText.classList.remove('visible');
+            if(isFortuneTelling) return; isFortuneTelling = true; fortuneBall.classList.add('shaking'); fortuneText.classList.remove('visible');
             setTimeout(() => {
                 fortuneBall.classList.remove('shaking');
-                const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-                fortuneText.innerHTML = randomFortune;
-                fortuneText.classList.add('visible');
-                isFortuneTelling = false;
+                let available = fortunes.filter(f => !fortuneHistory.includes(f));
+                if (available.length === 0) { fortuneHistory = []; available = fortunes; }
+                const selected = available[Math.floor(Math.random() * available.length)];
+                fortuneHistory.push(selected); if(fortuneHistory.length > 8) fortuneHistory.shift();
+                fortuneText.innerHTML = selected; fortuneText.classList.add('visible'); isFortuneTelling = false;
             }, 2000);
         }
 
@@ -978,121 +1698,465 @@
             window.addEventListener('devicemotion', (event) => {
                 if (!isFortuneTelling && document.getElementById('app-fortune').classList.contains('active')) {
                     const acc = event.accelerationIncludingGravity;
-                    if (acc && (Math.abs(acc.x) > 15 || Math.abs(acc.y) > 15)) {
-                        tellFortune();
-                    }
+                    if (acc && (Math.abs(acc.x) > 15 || Math.abs(acc.y) > 15)) { tellFortune(); }
                 }
             });
         }
 
-        // --- QUIZ (BENİ TANI) MANTIĞI ---
-        const quizData = [
-            {q: "Hangi rengi seviyorum? 🎨", a: "Mavi", o: ["Kırmızı", "Siyah"]},
-            {q: "Hangi saatte sevgili olduk? ⏰", a: "21:35", o: ["20:00", "19:05"]},
-            {q: "Ben en çok neyi severim? ❤️", a: "Karım", o: ["Araba", "Para"]},
-            {q: "En sevdiğim yemek? 🍽️", a: "Döner", o: ["Pizza", "Hamburger"]},
-            {q: "En sevdiğim tatlı? 🍰", a: "Minik sumroslar", o: ["Baklava", "Sütlaç"]},
-            {q: "Okulda ki en yüksek notum? 💯", a: "100", o: ["85", "90"]},
-            {q: "En sevdiğim koku? 👃", a: "Boynun", o: ["Parfüm", "Çiçek"]},
-            {q: "En sevdiğim oyun? 🎮", a: "Minecraft", o: ["GTA V", "Valorant"]},
-            {q: "En korktuğum şey? 😱", a: "Karımm", o: ["Örümcek", "Yükseklik"]},
-            {q: "En sevdiğim manzara? 🌅", a: "Sen ve Deniz", o: ["Dağ Evi", "Orman"]}
-        ];
+        // QUIZ MANTIĞI
+        const quizData = [{q: "Hangi rengi seviyorum? 🎨", a: "Mavi", o: ["Kırmızı", "Siyah"]}, {q: "Hangi saatte sevgili olduk? ⏰", a: "21:35", o: ["20:00", "19:05"]}, {q: "Ben en çok neyi severim? ❤️", a: "Karım", o: ["Araba", "Para"]}, {q: "En sevdiğim yemek? 🍽️", a: "Döner", o: ["Pizza", "Hamburger"]}, {q: "En sevdiğim tatlı? 🍰", a: "Minik sumroslar", o: ["Baklava", "Sütlaç"]}, {q: "Okulda ki en yüksek notum? 💯", a: "100", o: ["85", "90"]}, {q: "En sevdiğim koku? 👃", a: "Boynun", o: ["Parfüm", "Çiçek"]}, {q: "En sevdiğim oyun? 🎮", a: "Minecraft", o: ["GTA V", "Valorant"]}, {q: "En korktuğum şey? 😱", a: "Karımm", o: ["Örümcek", "Yükseklik"]}, {q: "En sevdiğim manzara? 🌅", a: "Sen ve Deniz", o: ["Dağ Evi", "Orman"]}];
+        let currentQuestion = 0; let score = 0;
 
-        let currentQuestion = 0;
-        let score = 0;
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            document.getElementById('quiz-container').style.display = 'block';
-            document.getElementById('quiz-result').style.display = 'none';
-            loadQuestion();
-        }
+        function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
+        function restartQuiz() { currentQuestion = 0; score = 0; document.getElementById('quiz-container').style.display = 'block'; document.getElementById('quiz-result').style.display = 'none'; loadQuestion(); }
 
         function loadQuestion() {
-            if (currentQuestion >= quizData.length) {
-                showQuizResult();
-                return;
-            }
-
-            const data = quizData[currentQuestion];
-            document.getElementById('quiz-question').innerText = data.q;
-            
-            // Şıkları karıştır
-            let options = [data.a, ...data.o];
-            shuffleArray(options);
-
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = '';
-
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.classList.add('quiz-btn');
-                btn.innerText = opt;
-                btn.onclick = () => checkAnswer(btn, opt, data.a);
-                optionsContainer.appendChild(btn);
-            });
+            if (currentQuestion >= quizData.length) { showQuizResult(); return; }
+            const data = quizData[currentQuestion]; document.getElementById('quiz-question').innerText = data.q;
+            let options = [data.a, ...data.o]; shuffleArray(options);
+            const optionsContainer = document.getElementById('quiz-options'); optionsContainer.innerHTML = '';
+            options.forEach(opt => { const btn = document.createElement('button'); btn.classList.add('quiz-btn'); btn.innerText = opt; btn.onclick = () => checkAnswer(btn, opt, data.a); optionsContainer.appendChild(btn); });
         }
 
         function checkAnswer(btn, selected, correct) {
-            // Butonları devre dışı bırak
-            const btns = document.querySelectorAll('.quiz-btn');
-            btns.forEach(b => b.disabled = true);
-
+            const btns = document.querySelectorAll('.quiz-btn'); btns.forEach(b => b.disabled = true);
             if (selected === correct) {
-                btn.classList.add('correct');
-                score++;
-                // Konfeti patlat
+                btn.classList.add('correct'); score++;
                 const modal = document.getElementById('app-quiz');
-                for(let i=0; i<30; i++) { 
-                    const c = document.createElement('div'); c.classList.add('confetti'); 
-                    c.innerText = ['🎉', '✨', '👏'][Math.floor(Math.random() * 3)];
-                    c.style.left = '50%'; c.style.top = '50%';
-                    c.style.setProperty('--x', (Math.random() - 0.5) * 500 + 'px'); 
-                    c.style.setProperty('--y', (Math.random() - 0.5) * 500 + 'px'); 
-                    c.style.setProperty('--r', (Math.random() * 360) + 'deg'); 
-                    modal.appendChild(c); setTimeout(() => c.remove(), 2000); 
-                }
+                for(let i=0; i<30; i++) { const c = document.createElement('div'); c.classList.add('confetti'); c.innerText = ['🎉', '✨', '👏'][Math.floor(Math.random() * 3)]; c.style.left = '50%'; c.style.top = '50%'; c.style.setProperty('--x', (Math.random() - 0.5) * 500 + 'px'); c.style.setProperty('--y', (Math.random() - 0.5) * 500 + 'px'); c.style.setProperty('--r', (Math.random() * 360) + 'deg'); modal.appendChild(c); setTimeout(() => c.remove(), 2000); }
             } else {
-                btn.classList.add('wrong');
-                // Doğruyu göster
-                btns.forEach(b => {
-                    if (b.innerText === correct) b.classList.add('correct');
-                });
-                // Titreşim (mobil için)
+                btn.classList.add('wrong'); btns.forEach(b => { if (b.innerText === correct) b.classList.add('correct'); });
                 if (navigator.vibrate) navigator.vibrate(200);
             }
-
-            setTimeout(() => {
-                currentQuestion++;
-                loadQuestion();
-            }, 1500);
+            setTimeout(() => { currentQuestion++; loadQuestion(); }, 1500);
         }
 
         function showQuizResult() {
-            document.getElementById('quiz-container').style.display = 'none';
-            document.getElementById('quiz-result').style.display = 'flex';
-            
-            const percentage = Math.round((score / quizData.length) * 100);
-            document.getElementById('score-circle').innerText = `%${percentage}`;
-            
+            document.getElementById('quiz-container').style.display = 'none'; document.getElementById('quiz-result').style.display = 'flex';
+            const percentage = Math.round((score / quizData.length) * 100); document.getElementById('score-circle').innerText = `%${percentage}`;
             let title, msg;
             if (percentage === 100) { title = "MÜKEMMEL! 🏆"; msg = "Sen benim Ruh Eşimsin! Beni benden iyi tanıyorsun. ❤️"; }
             else if (percentage >= 80) { title = "HARİKA! 👏"; msg = "Çok iyi! Beni gerçekten seviyorsun ve önemsiyorsun."; }
             else if (percentage >= 50) { title = "İDARE EDER 🤔"; msg = "Fena değil ama biraz daha çalışman lazım aşkım."; }
             else { title = "EYVAH! 😱"; msg = "Bu akşam trip yemeye hazır ol! Nasıl bilemezsin?"; }
-            
-            document.getElementById('result-title').innerText = title;
-            document.getElementById('result-msg').innerText = msg;
+            document.getElementById('result-title').innerText = title; document.getElementById('result-msg').innerText = msg;
         }
+
+        // LOVEFLIX & JETONLAR
+        function playLoveflix() { alert("🍿 Sinema Modu Başlatılıyor...\n\nMısırları patlat, battaniyeyi kap ve kocanı bekle! 🎬"); }
+        const tokenTypes = [{ icon: "🪙", title: "ALTIN JETON", desc: "Bu jetonla kocandan dilediğin bir şeyi isteyebilirsin!" }, { icon: "🍿", title: "SİNEMA JETONU", desc: "Sınırsız mısır ve film gecesi hakkı kazandın!" }, { icon: "💆‍♀️", title: "MASAJ JETONU", desc: "30 dakikalık omuz masajı kazandın!" }, { icon: "💋", title: "ÖPÜCÜK JETONU", desc: "Anında 10 adet öpücük tahsil edebilirsin!" }, { icon: "🍫", title: "ÇİKOLATA JETONU", desc: "Kocan sana en sevdiğin çikolatayı alacak!" }, { icon: "🃏", title: "JOKER JETON", desc: "Herhangi bir tartışmada haklı çıkma kartı!" }];
+        let clickCounter = 0; let targetClicks = Math.floor(Math.random() * 6) + 1;
+
+        function findHiddenToken(element) {
+            clickCounter++;
+            if(clickCounter >= targetClicks) {
+                const randomToken = tokenTypes[Math.floor(Math.random() * tokenTypes.length)];
+                document.getElementById('token-emoji').innerText = randomToken.icon; document.getElementById('token-title').innerText = randomToken.title; document.getElementById('token-desc').innerText = randomToken.desc;
+                document.getElementById('hidden-token-overlay').style.display = 'flex';
+                const modal = document.getElementById('app-loveflix');
+                for(let i=0; i<60; i++) { const c = document.createElement('div'); c.classList.add('confetti'); c.innerText = ['🪙', '✨', '🎉', '❤️'][Math.floor(Math.random() * 4)]; c.style.left = '50%'; c.style.top = '50%'; c.style.fontSize = (Math.random() * 30 + 10) + 'px'; c.style.setProperty('--x', (Math.random() - 0.5) * 800 + 'px'); c.style.setProperty('--y', (Math.random() - 0.5) * 800 + 'px'); c.style.setProperty('--r', (Math.random() * 720) + 'deg'); modal.appendChild(c); setTimeout(() => c.remove(), 2500); }
+                clickCounter = 0; targetClicks = Math.floor(Math.random() * 6) + 1;
+            } else {
+                element.style.transition = "transform 0.1s"; element.style.transform = "rotate(5deg) scale(0.95)"; setTimeout(() => { element.style.transform = "rotate(-5deg) scale(0.95)"; setTimeout(() => { element.style.transform = "rotate(0deg) scale(1)"; }, 100); }, 100);
+            }
+        }
+        function closeTokenOverlay() { document.getElementById('hidden-token-overlay').style.display = 'none'; alert("Jeton Cüzdanına Eklendi! (Şaka şaka, ekran görüntüsü alıp kocana atabilirsin 😉)"); }
+
+        // GÜNCELLENMİŞ KAZI KAZAN (HAFIZALI - TEKRAR YOK)
+        const scratchPrizes = [
+            {t: "👑 TEBRİKLER!", m: "Kocan sana 30 dk masaj yapacak!", i: "💆‍♀️"}, {t: "😈 HAHAHA!", m: "Bugün bulaşıklar tamamen sende!", i: "🧼"}, {t: "❤️ AŞK DOLU!", m: "Akşam yemeği kocandan!", i: "🍝"}, {t: "💸 AMORTİ", m: "Ödül yok ama bir öpücük kazandın.", i: "💋"}, {t: "☕ HİZMET ZAMANI", m: "Kocana bol köpüklü bir kahve yap.", i: "☕"}, {t: "🎬 SİNEMA", m: "Film seçme hakkı senin!", i: "🍿"}, {t: "📵 DETOKS", m: "1 Saat telefon yasak, sadece kocamla ilgilen!", i: "👀"}, {t: "🚗 ŞOFÖR", m: "Bugün özel şoförün benim. Nereye istersen!", i: "🏎️"}, {t: "😡 CEZA!", m: "Kumandayı kocana teslim et.", i: "📺"}, {t: "💅 GÜZELLİK", m: "Sana oje sürmemi ister misin?", i: "💅"}, {t: "🤷‍♂️ MAALESEF", m: "Boş yok ama ödül de yok. Sarılalım?", i: "🫂"}, {t: "🎤 KARAOKE", m: "Bana bir şarkı söylemek zorundasın!", i: "🎶"}, {t: "🏝️ HAYAL KUR", m: "Gözlerini kapat, tatile gidiyoruz (Hayalen).", i: "🏖️"}, {t: "📸 MODEL OL", m: "En güzel pozunu ver, fotoğrafını çekeceğim.", i: "📷"}, {t: "🍫 ÇİKOLATA", m: "Kocan sana en sevdiğin çikolatayı alacak.", i: "🍫"}
+        ];
+
+        const scratchCanvas = document.getElementById('scratch-canvas');
+        const scratchCtx = scratchCanvas.getContext('2d');
+        const scratchPrizeText = document.getElementById('scratch-prize-text');
+        let isDrawing = false;
+        let isRevealed = false;
+
+        function initScratchCard() {
+            let lastIndices = JSON.parse(localStorage.getItem('scratchHistory')) || [];
+            let availablePrizes = [];
+            scratchPrizes.forEach((prize, index) => { if (!lastIndices.includes(index)) availablePrizes.push({ ...prize, originalIndex: index }); });
+            if (availablePrizes.length === 0) { const last = lastIndices[lastIndices.length-1]; lastIndices = [last]; availablePrizes = scratchPrizes.filter((p,i)=>i!==last).map((p,i)=>({...p, originalIndex:i})); }
+            const selection = availablePrizes[Math.floor(Math.random() * availablePrizes.length)];
+            lastIndices.push(selection.originalIndex); if (lastIndices.length > 5) lastIndices.shift();
+            localStorage.setItem('scratchHistory', JSON.stringify(lastIndices));
+            const randomPrize = selection;
+            scratchPrizeText.innerHTML = `<div style="font-size:50px; margin-bottom:10px;">${randomPrize.i}</div><div style="font-size:22px; color:#d32f2f;">${randomPrize.t}</div><div style="font-size:16px; margin-top:5px; color:#555;">${randomPrize.m}</div>`;
+            isRevealed = false;
+            const wrapper = document.querySelector('.scratch-card-wrapper');
+            scratchCanvas.width = wrapper.offsetWidth; scratchCanvas.height = wrapper.offsetHeight;
+            const grd = scratchCtx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
+            grd.addColorStop(0, "#C0C0C0"); grd.addColorStop(0.5, "#E0E0E0"); grd.addColorStop(1, "#C0C0C0");
+            scratchCtx.fillStyle = grd; scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+            scratchCtx.fillStyle = "#999"; scratchCtx.font = "20px Arial"; scratchCtx.fillText("KAZIMAK İÇİN SÜRTE", 40, 90);
+            scratchCtx.globalCompositeOperation = 'destination-out';
+        }
+
+        function resetScratchCard() {
+            const wrapper = document.querySelector('.scratch-card-wrapper');
+            wrapper.style.transform = "scale(0.9)";
+            setTimeout(() => { initScratchCard(); wrapper.style.transform = "scale(1)"; }, 200);
+        }
+
+        function getMousePos(canvas, evt) { const rect = canvas.getBoundingClientRect(); return { x: (evt.clientX || evt.touches[0].clientX) - rect.left, y: (evt.clientY || evt.touches[0].clientY) - rect.top }; }
+        function scratch(e) { if (!isDrawing || isRevealed) return; e.preventDefault(); const pos = getMousePos(scratchCanvas, e); scratchCtx.beginPath(); scratchCtx.arc(pos.x, pos.y, 25, 0, Math.PI * 2); scratchCtx.fill(); checkReveal(); }
+
+        scratchCanvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+        scratchCanvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+        scratchCanvas.addEventListener('mousemove', scratch);
+        scratchCanvas.addEventListener('touchmove', scratch);
+        scratchCanvas.addEventListener('mouseup', () => { isDrawing = false; });
+        scratchCanvas.addEventListener('touchend', () => { isDrawing = false; });
+
+        function checkReveal() {
+            const imageData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+            let clearPixels = 0;
+            for (let i = 3; i < imageData.data.length; i += 4) { if (imageData.data[i] === 0) clearPixels++; }
+            if (clearPixels / (imageData.data.length / 4) > 0.4) {
+                isRevealed = true; scratchCanvas.style.transition = "opacity 0.5s"; scratchCanvas.style.opacity = "0";
+                const modal = document.getElementById('app-scratch');
+                for(let i=0; i<50; i++) { const c = document.createElement('div'); c.classList.add('confetti'); c.innerText = ['🎉', '✨', '💰'][Math.floor(Math.random() * 3)]; c.style.left = '50%'; c.style.top = '50%'; c.style.setProperty('--x', (Math.random() - 0.5) * 500 + 'px'); c.style.setProperty('--y', (Math.random() - 0.5) * 500 + 'px'); c.style.setProperty('--r', (Math.random() * 360) + 'deg'); modal.appendChild(c); setTimeout(() => c.remove(), 2000); }
+                setTimeout(() => { scratchCtx.clearRect(0, 0, scratchCanvas.width, scratchCanvas.height); scratchCanvas.style.opacity = "1"; }, 500);
+            }
+        }
+
+        // --- YENİ PANIC BUTTON MANTIĞI (ANİMASYONLU) ---
+        function activatePanicMode() {
+            if(navigator.vibrate) navigator.vibrate([200, 100, 200]); 
+            const stage1 = document.getElementById('panic-stage-1');
+            stage1.classList.add('stage-fade-out');
+            document.getElementById('app-panic').classList.add('panic-active');
+            setTimeout(() => {
+                stage1.style.display = 'none';
+                stage1.classList.remove('stage-fade-out');
+                const stage2 = document.getElementById('panic-stage-2');
+                stage2.classList.add('stage-fade-in');
+            }, 600);
+        }
+
+        function resetPanicMode() {
+            const stage1 = document.getElementById('panic-stage-1');
+            const stage2 = document.getElementById('panic-stage-2');
+            stage1.style.display = 'flex';
+            stage2.style.display = 'none';
+            stage1.classList.remove('stage-fade-out');
+            stage2.classList.remove('stage-fade-in');
+            document.getElementById('app-panic').classList.remove('panic-active');
+        }
+
+        function sendPanicWhatsapp(reason) {
+            const phone = "905315581447"; 
+            const text = `🚨 *KIRMIZI KOD: ACİL DURUM!* 🚨\n\nMerkez, acil durum bildiriyorum:\n👉 *${reason}*\n\nKonumuma derhal intikal etmeni rica ediyorum! 📍\nDurum Kritik! ⏳`;
+            window.location.href = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
+        }
+
+        // --- ZENLOVE UYGULAMA MANTIĞI (YENİ) ---
+        let breathInterval;
+        
+        function switchZenTab(tab) {
+            document.querySelectorAll('.zen-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            
+            if(tab === 'breath') {
+                document.getElementById('zen-view-breath').style.display = 'flex';
+                document.getElementById('zen-view-touch').style.display = 'none';
+                startBreathingText();
+            } else {
+                document.getElementById('zen-view-breath').style.display = 'none';
+                document.getElementById('zen-view-touch').style.display = 'flex';
+                stopBreathingText();
+            }
+        }
+
+        function startBreathingText() {
+            const label = document.getElementById('breath-label');
+            label.innerText = "NEFES AL"; 
+            if(breathInterval) clearInterval(breathInterval);
+            breathInterval = setInterval(() => {
+                label.innerText = "NEFES AL";
+                setTimeout(() => { label.innerText = "NEFES VER"; }, 4000);
+            }, 8000);
+            setTimeout(() => { label.innerText = "NEFES VER"; }, 4000);
+        }
+
+        function stopBreathingText() { if(breathInterval) clearInterval(breathInterval); }
+
+        function startTouch() {
+            const pad = document.getElementById('touch-pad');
+            const msg = document.getElementById('touch-msg');
+            pad.classList.add('active');
+            msg.innerText = "Şu an yanındayım...";
+            msg.style.color = "#ff2d55";
+            if(navigator.vibrate) navigator.vibrate([100, 100, 100, 1000, 100, 100, 100, 1000, 100, 100, 100]);
+        }
+
+        function endTouch() {
+            const pad = document.getElementById('touch-pad');
+            const msg = document.getElementById('touch-msg');
+            pad.classList.remove('active');
+            msg.innerText = "Parmağını basılı tut ve\nkalp atışımı hisset...";
+            msg.style.color = "#888";
+            if(navigator.vibrate) navigator.vibrate(0);
+        }
+
+/* --- AURA 5.0: TAKI MODÜLÜ & AKILLI FİLTRELER --- */
+
+const styleGen = {
+    colors: [
+        { n: "Siyah", hex: "#000000" }, { n: "Beyaz", hex: "#FFFFFF" },
+        { n: "Ekru", hex: "#F5F5DC" }, { n: "Antrasit", hex: "#333333" },
+        { n: "Lacivert", hex: "#000080" }, { n: "Vizon", hex: "#C8AD7F" },
+        { n: "Haki", hex: "#4B5320" }, { n: "Bebek Mavisi", hex: "#89CFF0" },
+        { n: "Pudra", hex: "#FFD1DC" }, { n: "Bordo", hex: "#800000" },
+        { n: "Kiremit", hex: "#b94e48" }, { n: "Gümüş Gri", hex: "#C0C0C0" }
+    ],
+    fabrics: [
+        { n: "Pamuklu", weight: "light" }, { n: "Keten", weight: "light" },
+        { n: "Saten", weight: "medium" }, { n: "Triko", weight: "heavy" },
+        { n: "Denim", weight: "medium" }, { n: "Deri", weight: "heavy" },
+        { n: "Kaşmir", weight: "heavy" }, { n: "Şifon", weight: "light" }
+    ],
+    cuts: [
+        "Oversize", "Slim Fit", "V Yaka", "Yüksek Bel", "Bol Kesim", 
+        "Pileli", "Basic", "Dökümlü", "Kuşaklı", "Asimetrik"
+    ],
+    items: {
+        tops: [
+            { n: "Basic T-shirt", i: "👕", cat: "summer" },
+            { n: "Gömlek", i: "👚", cat: "smart" },
+            { n: "İpek Bluz", i: "👚", cat: "chic" },
+            { n: "Askılı Top", i: "👚", cat: "summer" }, // Güneşli için
+            { n: "Kazak", i: "🧶", cat: "winter" },
+            { n: "Sweatshirt", i: "👕", cat: "sporty" },
+            { n: "Blazer Ceket", i: "🧥", cat: "smart" },
+            { n: "Hırka", i: "🧶", cat: "winter" },
+            { n: "Crop Top", i: "👚", cat: "summer" },
+            { n: "Trench Coat", i: "🧥", cat: "classic" }
+        ],
+        bottoms: [
+            { n: "Mom Jean", i: "👖", cat: "casual" },
+            { n: "Kumaş Pantolon", i: "👖", cat: "smart" },
+            { n: "Deri Pantolon", i: "👖", cat: "chic" },
+            { n: "Mini Etek", i: "👗", cat: "summer" },
+            { n: "Midi Etek", i: "👗", cat: "classy" },
+            { n: "Tayt", i: "🩳", cat: "sporty" },
+            { n: "Şort", i: "🩳", cat: "summer" },
+            { n: "Palazzo Pantolon", i: "👖", cat: "trend" },
+            { n: "Jogger", i: "👖", cat: "comfy" }
+        ],
+        shoes: [
+            { n: "Sneaker", i: "👟", cat: "casual" },
+            { n: "Stiletto", i: "👠", cat: "chic" },
+            { n: "Loafer", i: "👞", cat: "smart" },
+            { n: "Bot", i: "👢", cat: "winter" },
+            { n: "Sandalet", i: "👡", cat: "summer" },
+            { n: "Converse", i: "👟", cat: "casual" },
+            { n: "Çizme", i: "👢", cat: "winter" },
+            { n: "Terlik", i: "👡", cat: "summer" }
+        ],
+        bags: [
+            { n: "Omuz Çantası", i: "👜", cat: "daily" },
+            { n: "Tote Bag", i: "👜", cat: "work" },
+            { n: "Sırt Çantası", i: "🎒", cat: "sporty" },
+            { n: "Clutch", i: "👛", cat: "party" },
+            { n: "Mini Çanta", i: "👜", cat: "trend" },
+            { n: "Hasır Çanta", i: "👜", cat: "summer" }
+        ],
+        // YENİ EKLENDİ: TAKILAR 💍
+        jewelry: [
+            { n: "Altın Halka Küpe", i: "✨", cat: "gold" },
+            { n: "Gümüş Zincir Kolye", i: "⛓️", cat: "silver" },
+            { n: "İnci Kolye", i: "📿", cat: "classy" },
+            { n: "Güneş Gözlüğü", i: "🕶️", cat: "summer" },
+            { n: "Minimal Bileklik", i: "💫", cat: "daily" },
+            { n: "Şık Bir Saat", i: "⌚", cat: "smart" },
+            { n: "Fular", i: "🧣", cat: "chic" },
+            { n: "Halhal", i: "🦶", cat: "summer" }
+        ]
+    }
+};
+
+let auraState = { place: 'cafe', weather: 'sunny' };
+
+function selectAuraFilter(el, type, value) {
+    const container = el.parentElement;
+    for (let chip of container.getElementsByClassName('chip')) { chip.classList.remove('active'); }
+    el.classList.add('active');
+    auraState[type] = value;
+}
+
+function startAuraAI(isRefresh = false) {
+    const inputView = document.getElementById('aura-input-view');
+    const loadingView = document.getElementById('aura-loading-view');
+    const resultView = document.getElementById('aura-result-view');
+    
+    if(!isRefresh) inputView.style.display = 'none';
+    resultView.style.display = 'none';
+    loadingView.style.display = 'flex';
+
+    // Gerçekçi işlem mesajları
+    const messages = [
+        "☀️ Hava durumu verileri işleniyor...",
+        "👗 Kışlıklar eleniyor, yazlıklar seçiliyor...", // Dinamik mesaj
+        "✨ Aksesuar çekmecesi karıştırılıyor...",
+        "🎨 Renk uyumu kontrol ediliyor..."
+    ];
+
+    let step = 0;
+    const statusText = document.getElementById('ai-status-text');
+    
+    const interval = setInterval(() => {
+        if(step < messages.length) {
+            statusText.innerText = messages[step];
+            step++;
+        } else {
+            clearInterval(interval);
+            generateDreamOutfit(); 
+            loadingView.style.display = 'none';
+            resultView.style.display = 'flex';
+        }
+    }, 400);
+}
+
+function generateDreamOutfit() {
+    
+    function createPiece(type, place, weather) {
+        let possibleItems = [...styleGen.items[type]]; 
+
+        // --- SIKI KURALLAR (ASLA HATA YAPMA) ---
+        
+        // 1. HAVA DURUMU KURALLARI
+        if (weather === 'sunny') {
+            // Güneşte Kazak, Hırka, Bot, Çizme, Kalın Triko, Kadife ASLA ÇIKMAZ
+            possibleItems = possibleItems.filter(i => 
+                i.cat !== 'winter' && // Kışlık kategorisini sil
+                !i.n.includes("Kazak") &&
+                !i.n.includes("Hırka") &&
+                !i.n.includes("Bot") &&
+                !i.n.includes("Çizme")
+            );
+        } else if (weather === 'cold' || weather === 'rainy') {
+            // Soğukta Askılı, Şort, Terlik, Sandalet, Güneş Gözlüğü ASLA ÇIKMAZ
+            possibleItems = possibleItems.filter(i => 
+                i.cat !== 'summer' && 
+                !i.n.includes("Askılı") &&
+                !i.n.includes("Şort") &&
+                !i.n.includes("Sandalet")
+            );
+        }
+
+        // 2. MEKAN KURALLARI
+        if (place === 'work') {
+            possibleItems = possibleItems.filter(i => i.cat !== 'sporty' && i.cat !== 'summer' && !i.n.includes("Crop"));
+        }
+        if (place === 'party') {
+            possibleItems = possibleItems.filter(i => i.cat !== 'sporty' && i.cat !== 'comfy');
+        }
+
+        // Hata Önleyici: Liste boşalırsa en güvenli parçayı koy
+        if(possibleItems.length === 0) {
+            if(type==='tops') possibleItems = [{n:"Beyaz T-shirt", i:"👕"}];
+            else if(type==='bottoms') possibleItems = [{n:"Jean", i:"👖"}];
+            else if(type==='shoes') possibleItems = [{n:"Sneaker", i:"👟"}];
+            else if(type==='bags') possibleItems = [{n:"Çanta", i:"👜"}];
+            else possibleItems = [{n:"Küpe", i:"✨"}];
+        }
+
+        const selectedItem = possibleItems[Math.floor(Math.random() * possibleItems.length)];
+        const selectedColor = styleGen.colors[Math.floor(Math.random() * styleGen.colors.length)];
+        
+        // --- İSİM OLUŞTURMA (Mantıksız Kumaşları Engelle) ---
+        let finalName = "";
+        
+        if (type === 'jewelry') {
+            // Takılar için renk eklemeye gerek yok (Zaten Altın/Gümüş belli)
+            finalName = selectedItem.n;
+        } else {
+            // Kıyafetler için
+            let fabricPrefix = "";
+            // Sadece %50 ihtimalle kumaş ekle, ama mantıklı olsun
+            if(Math.random() > 0.5) {
+                let validFabrics = styleGen.fabrics;
+                
+                // Güneşliyse kalınları çıkar
+                if(weather === 'sunny') validFabrics = validFabrics.filter(f => f.weight !== 'heavy');
+                // Soğuksa inceleri çıkar
+                if(weather === 'cold') validFabrics = validFabrics.filter(f => f.weight !== 'light');
+
+                // Parça bazlı yasaklar
+                if(selectedItem.n.includes("Jean")) validFabrics = []; // Jean zaten kumaştır
+                if(selectedItem.n.includes("Deri")) validFabrics = []; // Deri zaten kumaştır
+                if(selectedItem.n.includes("T-shirt")) validFabrics = validFabrics.filter(f => f.n === 'Pamuklu');
+                if(selectedItem.n.includes("Kazak")) validFabrics = validFabrics.filter(f => f.n === 'Triko' || f.n === 'Kaşmir');
+
+                if(validFabrics.length > 0) {
+                    const fab = validFabrics[Math.floor(Math.random() * validFabrics.length)];
+                    fabricPrefix = fab.n + " ";
+                }
+            }
+            finalName = `${selectedColor.n} ${fabricPrefix}${selectedItem.n}`;
+        }
+
+        return {
+            name: finalName,
+            icon: selectedItem.i,
+            colorHex: selectedColor.hex || "#FFD700"
+        };
+    }
+
+    // Parçaları Üret
+    const top = createPiece('tops', auraState.place, auraState.weather);
+    const bottom = createPiece('bottoms', auraState.place, auraState.weather);
+    const shoes = createPiece('shoes', auraState.place, auraState.weather);
+    const bag = createPiece('bags', auraState.place, auraState.weather);
+    const jewelry = createPiece('jewelry', auraState.place, auraState.weather); // YENİ
+
+    // DOM'a Yaz
+    document.getElementById('res-top').innerHTML = `<div class="item-icon">${top.icon}</div><div class="item-name">${top.name}</div>`;
+    document.getElementById('res-bottom').innerHTML = `<div class="item-icon">${bottom.icon}</div><div class="item-name">${bottom.name}</div>`;
+    document.getElementById('res-shoes').innerHTML = `<div class="item-icon">${shoes.icon}</div><div class="item-name">${shoes.name}</div>`;
+    document.getElementById('res-bag').innerHTML = `<div class="item-icon">${bag.icon}</div><div class="item-name">${bag.name}</div>`;
+    document.getElementById('res-jewelry').innerHTML = `<div class="item-icon">${jewelry.icon}</div><div class="item-name">${jewelry.name}</div>`; // YENİ
+
+    // Renk Paleti
+    const paletteDiv = document.getElementById('res-palette');
+    paletteDiv.innerHTML = '';
+    const outfitColors = [top.colorHex, bottom.colorHex, shoes.colorHex, bag.colorHex];
+    outfitColors.forEach(c => {
+        const d = document.createElement('div');
+        d.className = 'color-swatch';
+        d.style.background = c;
+        paletteDiv.appendChild(d);
+    });
+
+    const notes = [
+        `Harika bir seçim! ${jewelry.name} bu kombine çok modern bir hava katmış.`,
+        `Güneşli havanın tadını çıkar! ${top.name} seni hem serin tutacak hem de şık gösterecek.`,
+        `Tamamlayıcı parça olarak ${jewelry.name} seçimi mükemmel. Kocan detaylara bayılacak!`,
+        `Sadelik ve zarafet bir arada. ${shoes.name} ile gün boyu rahat edeceksin.`,
+        `Bu renkler senin aurana çok yakışıyor. Tam bir 'Clean Girl' kombini!`
+    ];
+    document.getElementById('res-note').innerText = notes[Math.floor(Math.random() * notes.length)];
+
+    window.currentOutfitText = `👗 *AURA GÜNLÜK KOMBİN* 👗\n\n👒 ${top.name}\n👖 ${bottom.name}\n👠 ${shoes.name}\n👜 ${bag.name}\n✨ ${jewelry.name}`;
+}
+
+// Yardımcı Fonksiyonlar (Aynen kalıyor)
+function translateTag(tag) {
+    const dict = { 'cafe': 'Kafe', 'date': 'Date', 'work': 'Ofis', 'party': 'Parti', 'home': 'Ev', 'sunny': 'Güneşli', 'cloudy': 'Serin', 'rainy': 'Yağmurlu', 'cold': 'Soğuk' };
+    return dict[tag] || tag;
+}
+function shareOutfit() { if(window.currentOutfitText) window.location.href = `https://api.whatsapp.com/send?phone=905315581447&text=${encodeURIComponent(window.currentOutfitText)}`; }
+
+const originalCloseAura = window.closeApp;
+window.closeApp = function(id) {
+    document.getElementById('app-'+id).classList.remove('active');
+    if(id === 'aura') { setTimeout(() => { document.getElementById('aura-input-view').style.display = 'flex'; document.getElementById('aura-result-view').style.display = 'none'; document.getElementById('aura-loading-view').style.display = 'none'; }, 500); }
+    if(id==='heart') stopRain(); 
+    if(id==='zen') stopBreathingText();
+}
+
 
     </script>
 </body>
