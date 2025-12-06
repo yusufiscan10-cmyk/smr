@@ -924,6 +924,195 @@
     100% { left: 100%; }
 }
 
+        /* --- AŞK BORSASI STİLLERİ (PART 2) --- */
+        #app-stock .modal-content {
+            display: flex; flex-direction: column; height: 100%; overflow: hidden;
+        }
+
+        .stock-summary-card { padding: 20px 20px 10px; border-bottom: 1px solid #1c1c1e; }
+        .market-status { font-size: 11px; font-weight: 800; color: #34C759; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.9; display:flex; align-items:center; gap:5px; }
+        .market-status::before { content:''; display:block; width:6px; height:6px; background:#34C759; border-radius:50%; box-shadow:0 0 5px #34C759; animation: pulseGreen 2s infinite; }
+        
+        .total-valuation h1 { margin: 5px 0; font-size: 42px; font-weight: 700; letter-spacing: -1px; }
+        .trend-up { font-size: 14px; color: #34C759; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; background: rgba(52, 199, 89, 0.15); padding: 4px 8px; border-radius: 6px; }
+
+        .chart-area { 
+            width: 100%; height: 220px; 
+            position: relative; padding: 15px 0; 
+            border-bottom: 8px solid #1c1c1e; 
+            background: linear-gradient(to bottom, rgba(52, 199, 89, 0.05) 0%, transparent 100%);
+        }
+        #love-chart { width: 100%; height: 100%; display: block; }
+
+        .stock-list-container { flex: 1; overflow-y: auto; padding-bottom: 20px; }
+        .stock-list-header { font-size: 13px; color: #666; font-weight: 700; padding: 15px 20px 5px; letter-spacing: 0.5px; border-bottom: 1px solid #1c1c1e; }
+
+        .stock-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #1c1c1e; transition: background 0.2s; cursor: pointer; }
+        .stock-item:active { background: #1c1c1e; }
+
+        .stock-left { display: flex; flex-direction: column; }
+        .stock-symbol { font-size: 17px; font-weight: 700; color: white; margin-bottom: 3px; }
+        .stock-name { font-size: 13px; color: #888; font-weight: 500;}
+
+        .stock-right { display: flex; flex-direction: column; align-items: flex-end; }
+        .stock-price { font-size: 17px; font-weight: 600; color: white; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+        
+        .stock-badge { padding: 4px 8px; border-radius: 6px; font-size: 14px; font-weight: 700; color: white; min-width: 65px; text-align: center; }
+        .stock-badge.up { background: #34C759; }
+        .stock-badge.down { background: #FF3B30; }
+
+        .news-ticker-container {
+            background: #1c1c1e; color: #34C759;
+            font-family: 'Courier New', monospace; font-weight: bold; font-size: 14px;
+            padding: 12px 0; overflow: hidden; white-space: nowrap;
+            border-top: 1px solid #333; margin-top: auto; 
+            position: relative; z-index: 10;
+        }
+        
+        .news-ticker-content { display: inline-block; animation: tickerScroll 20s linear infinite; padding-left: 100%; }
+
+        @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        @keyframes pulseGreen { 0% { opacity: 0.5; } 50% { opacity: 1; box-shadow:0 0 10px #34C759; } 100% { opacity: 0.5; } }
+
+                /* --- LUNA V3.0 PREMIUM STİLLER --- */
+        
+        /* Temel Ayarlar & Fixler */
+        #app-luna { background: #0b0b14 !important; padding: 0 !important; }
+        #app-luna .modal-header { display: none !important; }
+        #app-luna .modal-content {
+            background: radial-gradient(circle at center, #1b1b2f 0%, #050508 100%) !important;
+            width: 100% !important; height: 100% !important;
+            justify-content: flex-start !important; padding-top: 0 !important;
+        }
+
+        /* Kapatma Butonu */
+        .luna-close-absolute {
+            position: fixed; top: max(20px, env(safe-area-inset-top)); right: 20px;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2); color: white;
+            font-size: 16px; cursor: pointer; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Başlık ve Hizalama */
+        .luna-container {
+            width: 100%; padding: 70px 20px 40px; box-sizing: border-box;
+            display: flex; flex-direction: column; align-items: center; 
+            position: relative; z-index: 2;
+        }
+        .luna-header { text-align: center; width: 100%; margin-bottom: 20px; }
+        .luna-title {
+            font-family: 'Didot', serif; font-size: 36px; letter-spacing: 4px; 
+            margin: 0 0 5px 0; color: white; 
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            text-align: center; width: 100%; display: block;
+        }
+        #luna-status-text {
+            color: #a5a5cc; font-size: 13px; font-weight: 700; 
+            letter-spacing: 2px; text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* --- YENİ: Yanıp Sönen Yıldızlar --- */
+        .stars-layer-1, .stars-layer-2 {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+        .stars-layer-1 {
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px; opacity: 0.3;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+        .stars-layer-2 {
+            background-image: radial-gradient(white 2px, transparent 2px);
+            background-size: 120px 120px; background-position: 20px 20px; opacity: 0.4;
+            animation: twinkle 5s infinite ease-in-out alternate;
+        }
+        @keyframes twinkle { 0% {opacity: 0.2;} 50% {opacity: 0.5;} 100% {opacity: 0.2;} }
+
+        /* --- GELİŞMİŞ AY GÖRSELİ (Evreler İçin) --- */
+        .moon-stage { position: relative; width: 200px; height: 200px; margin: 20px 0 40px; display: flex; justify-content: center; align-items: center; }
+        
+        .moon-halo {
+            position: absolute; width: 240px; height: 240px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+            animation: pulseHalo 4s infinite ease-in-out; z-index: 1;
+        }
+        @keyframes pulseHalo { 0%,100%{transform:scale(1); opacity:0.5;} 50%{transform:scale(1.1); opacity:0.8;} }
+
+        .realistic-moon {
+            width: 180px; height: 180px; border-radius: 50%;
+            background: #dcdce6; /* Ayın taban rengi */
+            position: relative; overflow: hidden;
+            box-shadow: inset -10px -10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.2);
+            z-index: 2;
+        }
+        
+        /* Krater Dokusu */
+        .moon-texture {
+            position: absolute; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(0,0,0,0.1) 15%, transparent 16%), radial-gradient(rgba(0,0,0,0.1) 10%, transparent 11%);
+            background-size: 60px 60px, 100px 100px; background-position: 0 0, 30px 30px;
+            opacity: 0.6;
+        }
+
+        /* EVRE GÖLGESİ (JS ile kontrol edilecek) */
+        .moon-shadow {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%;
+            background: rgba(11, 11, 20, 0.85); /* Gölge rengi (Arka planla uyumlu) */
+            transition: transform 0.5s ease;
+            /* Varsayılan: Dolunay (Gölge yok veya kenarda) */
+            transform: translateX(100%); 
+            box-shadow: inset 10px 0 20px rgba(0,0,0,0.9);
+        }
+
+        .moon-overlay-text {
+            position: absolute; z-index: 10; text-align: center;
+            color: #1a1a2e; text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+        }
+        .moon-overlay-text span { font-size: 64px; font-weight: 700; display: block; line-height: 0.9; font-family: 'Didot', serif; }
+
+        /* Kart ve Butonlar */
+        .luna-info-card {
+            background: rgba(255,255,255,0.08); backdrop-filter: blur(10px);
+            padding: 20px; border-radius: 20px; width: 100%; text-align: center;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;
+        }
+        .luna-actions { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+        .luna-btn { padding: 16px; border-radius: 15px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; color: white; transition: transform 0.2s; }
+        .luna-btn:active { transform: scale(0.95); }
+        .start-btn { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); flex: 1; box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4); }
+        .end-btn { background: #2c3e50; width: 30%; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .notify-btn { background: #25D366; width: 100%; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+
+        /* --- TAKVİM (NAVİGASYONLU) --- */
+        .luna-calendar-section { width: 100%; background: rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        
+        .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .cal-nav button { background: none; border: none; color: white; font-size: 18px; padding: 5px 15px; cursor: pointer; }
+        #cal-month-year { font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .calendar-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 10px; text-align: center; font-size: 12px; color: #888; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 15px; }
+        
+        .cal-day {
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; color: #ddd; border-radius: 50%;
+        }
+        .cal-day.today { border: 1px solid rgba(255,255,255,0.8); font-weight: bold; }
+        .cal-day.other-month { opacity: 0.2; }
+        
+        /* İşaretleyiciler */
+        .cal-day.active-period { background: #ff416c; box-shadow: 0 0 8px rgba(255, 65, 108, 0.6); color: white; }
+        .cal-day.active-ovulation { background: #a18cd1; color: white; }
+        .cal-day.active-ended { border: 2px solid #ff416c; color: #ff416c; font-weight: bold; } /* Bitti işareti */
+
+        .cal-legend { display: flex; gap: 15px; justify-content: center; font-size: 11px; color: #888; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display:inline-block; margin-right:5px; }
+        .dot.red { background: #ff416c; } .dot.purple { background: #a18cd1; }
+
 
     </style>
 </head>
@@ -975,6 +1164,16 @@
     <div class="icon-box" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); font-size: 28px; border: 1px solid rgba(255,255,255,0.5);">👗</div>
     <span class="icon-label">Aura</span>
 </div>
+<div class="app-icon" onclick="openApp('stock')">
+    <div class="icon-box" style="background: #1c1c1e;">📈</div>
+    <span class="icon-label">Borsa</span>
+</div>
+<div class="app-icon" onclick="openApp('luna')">
+    <div class="icon-box" style="background: linear-gradient(135deg, #240b36 0%, #c31432 100%); border: 1px solid rgba(255,255,255,0.2); font-size: 26px; box-shadow: 0 5px 15px rgba(195, 20, 50, 0.4);">🌙</div>
+    <span class="icon-label">Luna</span>
+</div>
+
+
 
             </div>
             <div class="dock">
@@ -1440,7 +1639,152 @@
             </div>
         </div>
     </div>
+
 </div>
+<div id="app-stock" class="app-modal">
+    <div class="modal-header" style="background: #1c1c1e; color: white; border-bottom: 1px solid #333;">
+        <span>Borsa</span>
+        <button class="close-btn" onclick="closeApp('stock')" style="color: #34C759; background: rgba(52, 199, 89, 0.2);">Bitti</button>
+    </div>
+    
+    <div class="modal-content" style="background: #000; color: white; padding: 0;">
+        
+        <div class="stock-summary-card">
+            <div class="market-status">🟢 PİYASA AÇIK</div>
+            <div class="total-valuation">
+                <span style="color:#888; font-size:13px; font-weight:600;">PORTFÖY DEĞERİ</span>
+                <h1 style="margin:5px 0; font-size:36px;">♾️ (Sonsuz)</h1>
+                <span class="trend-up">▲ %1000 Bugün</span>
+            </div>
+        </div>
+
+        <div class="chart-area">
+            <canvas id="love-chart"></canvas>
+        </div>
+
+        <div class="stock-list-container">
+            <div class="stock-list-header">HİSSELERİM</div>
+            
+            <div class="stock-item">
+                <div class="stock-left">
+                    <span class="stock-symbol">SMR</span>
+                    <span class="stock-name">Sumru A.Ş.</span>
+                </div>
+                <div class="stock-right">
+                    <span class="stock-price" id="price-smr">999.9K</span>
+                    <div class="stock-badge up">+%5.4</div>
+                </div>
+            </div>
+
+            <div class="stock-item">
+                <div class="stock-left">
+                    <span class="stock-symbol">KOC</span>
+                    <span class="stock-name">Kocan Holding</span>
+                </div>
+                <div class="stock-right">
+                    <span class="stock-price" id="price-koc">850.5K</span>
+                    <div class="stock-badge up">+%4.2</div>
+                </div>
+            </div>
+
+            <div class="stock-item">
+                <div class="stock-left">
+                    <span class="stock-symbol">ASK</span>
+                    <span class="stock-name">Bizim Hikayemiz</span>
+                </div>
+                <div class="stock-right">
+                    <span class="stock-price">PAHA BİÇİLEMEZ</span>
+                    <div class="stock-badge up">🚀</div>
+                </div>
+            </div>
+
+            <div class="stock-item">
+                <div class="stock-left">
+                    <span class="stock-symbol">TRP</span>
+                    <span class="stock-name">Trip Endeksi</span>
+                </div>
+                <div class="stock-right">
+                    <span class="stock-price" id="price-trp">0.01</span>
+                    <div class="stock-badge down">▼%99</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="news-ticker-container">
+            <div class="news-ticker-content">
+                SON DAKİKA: Sumru güldü, piyasalar coştu! 📈 • Kocası açıklama yaptı: "Ona her baktığımda hisseler tavan yapıyor." • Aşk Borsasında tarihi rekor! • Uzmanlar uyarıyor: Bu ilişki aşırı dozda mutluluk içerir. ⚠️ •
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="app-luna" class="app-modal">
+    <div class="modal-content" style="background: #0b0b14; color: white; padding: 0; overflow-y: auto; overflow-x: hidden; position: relative;">
+        
+        <button class="luna-close-absolute" onclick="closeApp('luna')">✕</button>
+
+        <div class="stars-layer-1"></div>
+        <div class="stars-layer-2"></div>
+
+        <div class="luna-container">
+            <div class="luna-header">
+                <h2 class="luna-title">LUNA</h2>
+                <p id="luna-status-text">Döngü Hesaplanıyor...</p>
+            </div>
+
+            <div class="moon-stage">
+                <div class="moon-halo"></div>
+                <div class="realistic-moon">
+                    <div class="moon-texture"></div>
+                    <div class="moon-shadow" id="moon-shadow-mask"></div>
+                </div>
+                <div class="moon-overlay-text">
+                    <span id="cycle-day-num">--</span>
+                    <small>GÜN</small>
+                </div>
+            </div>
+
+            <div class="luna-info-card">
+                <div class="phase-name" id="phase-name">Hoş Geldin</div>
+                <p class="phase-desc" id="phase-desc">Döngünü takip etmek için aşağıdan başlangıç tarihini seç.</p>
+            </div>
+
+            <div class="luna-actions">
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <button class="luna-btn start-btn" onclick="setCycleStart()">🩸 Başladı</button>
+                    <button class="luna-btn end-btn" onclick="setCycleEnd()">✨ Bitti</button>
+                </div>
+                <button class="luna-btn notify-btn" onclick="notifyHusbandStatus()">
+                    <span>💬 Kocana Bildir</span>
+                </button>
+            </div>
+
+            <div class="luna-calendar-section">
+                <div class="cal-nav">
+                    <button onclick="changeLunaMonth(-1)">❮</button>
+                    <span id="cal-month-year">Ocak 2025</span>
+                    <button onclick="changeLunaMonth(1)">❯</button>
+                </div>
+                
+                <div class="calendar-grid-header">
+                    <span>Pt</span><span>Sa</span><span>Ça</span><span>Pe</span><span>Cu</span><span>Ct</span><span>Pz</span>
+                </div>
+                <div class="calendar-grid" id="luna-calendar">
+                    </div>
+                
+                <div class="cal-legend">
+                    <span><span class="dot red"></span>Regl</span>
+                    <span><span class="dot purple"></span>Yumurtlama</span>
+                </div>
+            </div>
+
+            <div style="height: 50px;"></div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
         function updateTime(){const n=new Date();document.getElementById('clock').innerText=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');document.getElementById('date').innerText=n.toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'});const s=new Date("2022-10-24");const d=Math.ceil(Math.abs(n-s)/(1000*60*60*24));document.getElementById('days-counter').innerText=d+" Gündür";}setInterval(updateTime,1000);updateTime();
@@ -2156,6 +2500,323 @@ window.closeApp = function(id) {
     if(id==='heart') stopRain(); 
     if(id==='zen') stopBreathingText();
 }
+
+        /* --- AŞK BORSASI MANTIĞI & GÜNCELLENMİŞ APP AÇICI --- */
+        let stockTicker;
+
+        function initStockApp() {
+            setTimeout(() => {
+                const canvas = document.getElementById('love-chart');
+                const container = document.querySelector('.chart-area');
+                if(container && canvas) {
+                    canvas.width = container.offsetWidth;
+                    canvas.height = container.offsetHeight;
+                    drawStockChart();
+                }
+            }, 300); // Animasyon bitince çiz
+
+            // Canlı borsa simülasyonunu başlat
+            if(stockTicker) clearInterval(stockTicker);
+            stockTicker = setInterval(simulateMarket, 2500);
+        }
+
+        function drawStockChart() {
+            const c = document.getElementById('love-chart');
+            if(!c) return;
+            const ctx = c.getContext('2d');
+            const w = c.width;
+            const h = c.height;
+
+            // Temizle
+            ctx.clearRect(0, 0, w, h);
+
+            // Veri Noktaları (Sürekli yükselen trend)
+            const points = [];
+            let y = h - 20;
+            const step = w / 10;
+            
+            ctx.beginPath();
+            ctx.moveTo(0, h); // Sol alt başlangıç
+            
+            // Rastgele ama yukarı yönlü noktalar oluştur
+            for(let x = 0; x <= w + 10; x += step) {
+                const randomY = h - (Math.random() * h * 0.5) - (x / w * h * 0.4); 
+                points.push({x: x, y: randomY});
+                ctx.lineTo(x, randomY);
+            }
+
+            // Çizgi Stili
+            ctx.strokeStyle = '#34C759';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Altını Doldur (Gradient)
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            const grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, 'rgba(52, 199, 89, 0.4)');
+            grad.addColorStop(1, 'rgba(52, 199, 89, 0.0)');
+            ctx.fillStyle = grad;
+            ctx.fill();
+        }
+
+        function simulateMarket() {
+            // SMR ve KOC hisselerini yükselt
+            const smrEl = document.getElementById('price-smr');
+            const kocEl = document.getElementById('price-koc');
+            const trpEl = document.getElementById('price-trp');
+
+            if(smrEl) {
+                let current = parseFloat(smrEl.innerText);
+                let change = (Math.random() - 0.2) * 5; // Genelde artar
+                smrEl.innerText = (current + change).toFixed(1) + 'K';
+            }
+            
+            if(kocEl) {
+                let current = parseFloat(kocEl.innerText);
+                let change = (Math.random() - 0.2) * 4;
+                kocEl.innerText = (current + change).toFixed(1) + 'K';
+            }
+
+            // Trip hissesi hep dipte
+            if(trpEl) {
+                let val = Math.random() * 0.05;
+                trpEl.innerText = val.toFixed(2);
+            }
+        }
+
+        // --- GÜNCELLENMİŞ ANA FONKSİYON (Eskisini ezer) ---
+        // Bu fonksiyon Stock dahil tüm uygulamaları düzgün açar
+        window.openApp = function(id) {
+            document.getElementById('app-'+id).classList.add('active');
+            
+            if(id==='stock') initStockApp(); // YENİ: Borsa Başlatıcı
+            
+            if(id==='messages') loadMessages();
+            if(id==='mail') loadEmails();
+            if(id==='phone') loadCalls();
+            if(id==='heart') resetHeartApp();
+            if(id==='quiz') restartQuiz();
+            if(id==='scratch') initScratchCard();
+            if(id==='panic') resetPanicMode();
+            if(id==='zen') switchZenTab('breath');
+        };
+
+               /* --- LUNA V3.0 MANTIĞI (TAKVİM GEZİNTİSİ & AY EVRELERİ) --- */
+        
+        // Veri Yapısı: Başlangıç ve Süre
+        let lunaData = JSON.parse(localStorage.getItem('luna_data')) || { startDate: null, periodLength: 5 };
+        let currentCalDate = new Date(); // Takvimde şu an görüntülenen ay
+
+        const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+        
+        const phases = {
+            period: { t: "Regl Dönemi", d: "Dinlenme zamanı prensesim. 🩸", color: "#ff416c", msg: "Aşkım Kırmızı Kod! 🚨 Regl başladı, ilgi ve çikolata bekleniyor!" },
+            follicular: { t: "Yükseliş", d: "Enerjin harika, parlıyorsun! ✨", color: "#ffc3a0", msg: "Regl bitti, enerjim tavan! 💃" },
+            ovulation: { t: "Yumurtlama", d: "En çekici olduğun günler! 🔥", color: "#a18cd1", msg: "Dikkat: Göz kamaştırıyorum! 😎" },
+            luteal: { t: "PMS", d: "Biraz sakinlik iyi gelebilir. 🧘‍♀️", color: "#7b7b8a", msg: "PMS dönemindeyim, biraz nazlı olabilirim... 🥺" }
+        };
+
+        function initLuna() {
+            updateLunaUI();
+            renderCalendar();
+        }
+
+        // --- BUTON FONKSİYONLARI ---
+        
+        function setCycleStart() {
+            if(confirm("Regl başlangıcını BUGÜN olarak işaretleyelim mi?")) {
+                lunaData.startDate = new Date().toISOString();
+                lunaData.periodLength = 5; // Varsayılan süreye dön
+                localStorage.setItem('luna_data', JSON.stringify(lunaData));
+                
+                // KALP & KONFETİ PATLAMASI 💥
+                createHeartExplosion();
+                
+                updateLunaUI();
+                renderCalendar();
+            }
+        }
+
+        function setCycleEnd() {
+            if(!lunaData.startDate) return alert("Önce döngü başlamalı.");
+            const start = new Date(lunaData.startDate);
+            const today = new Date();
+            // Gün farkını bul
+            const diffTime = Math.abs(today - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if(diffDays > 10 || diffDays < 1) {
+                alert("Tarihlerde bir gariplik var, lütfen başlangıcı kontrol et.");
+            } else {
+                lunaData.periodLength = diffDays; // Süreyi güncelle
+                localStorage.setItem('luna_data', JSON.stringify(lunaData));
+                alert(`Regl ${diffDays} gün sürdü. Takvime işlendi! ✅`);
+                updateLunaUI();
+                renderCalendar();
+            }
+        }
+
+        // --- UI & AY GÖRSELİ GÜNCELLEME ---
+        
+        function updateLunaUI() {
+            const dayDisplay = document.getElementById('cycle-day-num');
+            const phaseTitle = document.getElementById('phase-name');
+            const phaseDesc = document.getElementById('phase-desc');
+            const statusText = document.getElementById('luna-status-text');
+            const moonShadow = document.getElementById('moon-shadow-mask');
+            const moonGlow = document.getElementById('moon-glow');
+
+            if(!lunaData.startDate) {
+                dayDisplay.innerText = "--";
+                statusText.innerText = "VERİ YOK";
+                moonShadow.style.transform = "translateX(0)"; // Yeni Ay (Karanlık)
+                return;
+            }
+
+            const start = new Date(lunaData.startDate);
+            const today = new Date();
+            const diffTime = Math.abs(today - start);
+            const dayOfCycle = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            dayDisplay.innerText = dayOfCycle;
+            statusText.innerText = `DÖNGÜNÜN ${dayOfCycle}. GÜNÜ`;
+
+            // Evre Belirleme
+            let pKey = 'luteal';
+            if(dayOfCycle <= lunaData.periodLength) pKey = 'period';
+            else if(dayOfCycle <= 11) pKey = 'follicular';
+            else if(dayOfCycle <= 16) pKey = 'ovulation';
+            
+            const p = phases[pKey];
+            phaseTitle.innerText = p.t;
+            phaseDesc.innerText = p.d;
+            phaseTitle.style.color = p.color;
+            window.currentLunaMsg = p.msg;
+            
+            // Ayın Arkasındaki Glow Rengi
+            moonGlow.style.background = `radial-gradient(circle, ${p.color} 0%, transparent 70%)`;
+
+            // --- AYIN EVRESİ SİMÜLASYONU ---
+            // 1-14 arası Dolunaya gider, 14-28 arası Yeni aya döner
+            // Basit bir gölge kaydırma mantığı:
+            // -100% (Sol) -> 0% (Orta/Yeni Ay) -> 100% (Sağ/Dolunay)
+            // Bu basit bir görsel hiledir.
+            
+            let phasePercent;
+            if(dayOfCycle <= 14) {
+                // Dolunaya doğru (Aydınlanıyor)
+                // Gölge sağa çekilmeli
+                phasePercent = (dayOfCycle / 14) * 200; // 0 to 200
+                moonShadow.style.transform = `translateX(${phasePercent}%)`;
+                moonShadow.style.opacity = dayOfCycle === 14 ? 0 : 0.8; // 14. gün tam parlak
+            } else {
+                // Yeni aya doğru (Kararıyor)
+                // Gölge geri gelmeli ama diğer taraftan
+                let waning = dayOfCycle - 14;
+                phasePercent = 200 - ((waning / 14) * 200);
+                moonShadow.style.transform = `translateX(${phasePercent}%)`;
+                 moonShadow.style.opacity = 0.8;
+            }
+        }
+
+        // --- TAKVİM MANTIĞI (GEZİNTİLİ) ---
+
+        function changeLunaMonth(delta) {
+            currentCalDate.setMonth(currentCalDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const cal = document.getElementById('luna-calendar');
+            const header = document.getElementById('cal-month-year');
+            cal.innerHTML = '';
+            
+            const year = currentCalDate.getFullYear();
+            const month = currentCalDate.getMonth();
+            
+            header.innerText = `${monthNames[month]} ${year}`;
+
+            // Ayın ilk günü hangi gün? (0 Pazar - 6 Cumartesi)
+            // Pazartesi(1) başlasın istiyoruz.
+            let firstDayIndex = new Date(year, month, 1).getDay(); 
+            firstDayIndex = firstDayIndex === 0 ? 6 : firstDayIndex - 1; // Pzt=0 yap
+            
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Boşlukları doldur
+            for(let i=0; i<firstDayIndex; i++) {
+                const empty = document.createElement('div');
+                cal.appendChild(empty);
+            }
+
+            // Günleri doldur
+            for(let i=1; i<=daysInMonth; i++) {
+                const dayEl = document.createElement('div');
+                dayEl.classList.add('cal-day');
+                dayEl.innerText = i;
+                
+                // Bugün mü?
+                const today = new Date();
+                if(i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    dayEl.classList.add('today');
+                }
+
+                // Regl ve Yumurtlama İşaretleme
+                if(lunaData.startDate) {
+                    const start = new Date(lunaData.startDate);
+                    const checkDate = new Date(year, month, i);
+                    
+                    // Gün farkı (Zamanı sıfırla ki saat farkı olmasın)
+                    start.setHours(0,0,0,0);
+                    checkDate.setHours(0,0,0,0);
+                    
+                    const diffTime = checkDate - start;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    if(diffDays >= 0 && diffDays < lunaData.periodLength) {
+                        dayEl.classList.add('active-period'); // Kırmızı
+                    } else if(diffDays >= 12 && diffDays <= 16) {
+                        dayEl.classList.add('active-ovulation'); // Mor
+                    }
+                    
+                    // Regl Bitiş Günü İşareti
+                    if(diffDays === lunaData.periodLength) {
+                         // Eğer o gün bittiyse işaretle (Basit görsel)
+                    }
+                }
+
+                cal.appendChild(dayEl);
+            }
+        }
+
+        function notifyHusbandStatus() {
+            if(!window.currentLunaMsg) return alert("Döngü verisi yok.");
+            window.location.href = `https://api.whatsapp.com/send?phone=905315581447&text=${encodeURIComponent(window.currentLunaMsg)}`;
+        }
+
+        // KALP PATLAMASI EFEKTİ 💥
+        function createHeartExplosion() {
+            const modal = document.getElementById('app-luna');
+            const colors = ['❤️', '🩸', '💖', '✨'];
+            
+            for(let i=0; i<60; i++) { 
+                const c = document.createElement('div'); 
+                c.classList.add('confetti'); 
+                c.innerText = colors[Math.floor(Math.random() * colors.length)];
+                c.style.left = '50%'; c.style.top = '40%'; // Ayın olduğu yerden patlasın
+                c.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                
+                // Rastgele dağılım
+                c.style.setProperty('--x', (Math.random() - 0.5) * 600 + 'px'); 
+                c.style.setProperty('--y', (Math.random() - 0.5) * 600 + 'px'); 
+                c.style.setProperty('--r', (Math.random() * 720) + 'deg'); 
+                
+                modal.appendChild(c); 
+                setTimeout(() => c.remove(), 2500); 
+            }
+        }
+
 
 
     </script>
