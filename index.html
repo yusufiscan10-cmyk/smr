@@ -31,21 +31,29 @@
 
         
         /* TAM EKRAN AYARI (Mobil Bar Çözümü - 100dvh) */
+                /* ÇERÇEVE AYARI */
         .iphone-frame { 
-            width: 100vw; 
-            height: 100vh; height: 100dvh; 
-            background: #000; border-radius: 0; 
-            position: absolute; top:0; left:0;
+            width: 100%; 
+            height: 100dvh; /* Ekranı tam doldurur */
+            position: fixed; /* Sayfaya sabitler */
+            top: 0; left: 0;
+            background: #a18cd1; /* Siyah yerine temanın rengini verelim (Yama) */
             overflow: hidden; 
         }
 
+
+                /* DUVAR KAĞIDI (TAM EKRAN ÇÖZÜMÜ) */
         .wallpaper { 
-            width: 100%; height: 110%; /* Siyahlık kalmasın diye taşırdık */
+            position: fixed; /* Absolute yerine Fixed yapıyoruz ki kaymasın */
+            top: 0; left: 0; 
+            width: 100vw; 
+            height: 100dvh; /* 100% yerine 100dvh (Mobil tarayıcı barını yoksayar) */
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 50%, #a18cd1 100%); 
-            background-size: 200% 200%; position: absolute; top: 0; left: 0; z-index: 0; 
+            background-size: 200% 200%; 
+            z-index: 0; 
             animation: gradientMove 15s ease infinite alternate; 
         }
-        @keyframes gradientMove { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+
         
         .screen { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
@@ -73,7 +81,10 @@
         .swipe-hint { position: absolute; bottom: max(40px, calc(var(--safe-bottom) + 20px)); font-size: 15px; opacity: 0.8; animation: bounce 2s infinite; animation-delay: 1s; }
         .home-bar { position: absolute; bottom: 8px; width: 140px; height: 5px; background: white; border-radius: 10px; z-index: 100; margin-bottom: var(--safe-bottom); }
         @keyframes slideInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }.home-bar { 
+    display: none; /* Bu satır çubuğu tamamen yok eder */
+}
+
 
         /* ANA EKRAN (KAYDIRMA SORUNU ÇÖZÜLDÜ) */
         #home-screen { 
@@ -974,144 +985,172 @@
         @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         @keyframes pulseGreen { 0% { opacity: 0.5; } 50% { opacity: 1; box-shadow:0 0 10px #34C759; } 100% { opacity: 0.5; } }
 
-                /* --- LUNA V3.0 PREMIUM STİLLER --- */
+                        
+        /* --- LUNA V7 CSS (FIXED COLOR & SCROLL) --- */
         
-        /* Temel Ayarlar & Fixler */
-        #app-luna { background: #0b0b14 !important; padding: 0 !important; }
+        /* 1. ANA KAPLAYICI (Kaymayı Önler) */
+        #app-luna { background: #000 !important; padding: 0 !important; }
         #app-luna .modal-header { display: none !important; }
         #app-luna .modal-content {
-            background: radial-gradient(circle at center, #1b1b2f 0%, #050508 100%) !important;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%) !important;
             width: 100% !important; height: 100% !important;
-            justify-content: flex-start !important; padding-top: 0 !important;
+            padding-top: 0 !important; border-radius: 0 !important;
+            justify-content: flex-start !important;
+            overflow-x: hidden !important; /* YATAY KAYMAYI ENGELLER */
         }
 
-        /* Kapatma Butonu */
+        /* 2. KAPATMA BUTONU */
         .luna-close-absolute {
             position: fixed; top: max(20px, env(safe-area-inset-top)); right: 20px;
             width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2); color: white;
-            font-size: 16px; cursor: pointer; z-index: 100;
+            font-size: 16px; cursor: pointer; z-index: 9999;
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* Başlık ve Hizalama */
+        /* 3. İÇERİK DÜZENİ */
         .luna-container {
-            width: 100%; padding: 70px 20px 40px; box-sizing: border-box;
-            display: flex; flex-direction: column; align-items: center; 
-            position: relative; z-index: 2;
-        }
-        .luna-header { text-align: center; width: 100%; margin-bottom: 20px; }
-        .luna-title {
-            font-family: 'Didot', serif; font-size: 36px; letter-spacing: 4px; 
-            margin: 0 0 5px 0; color: white; 
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
-            text-align: center; width: 100%; display: block;
-        }
-        #luna-status-text {
-            color: #a5a5cc; font-size: 13px; font-weight: 700; 
-            letter-spacing: 2px; text-transform: uppercase;
-            text-align: center;
+            position: relative; z-index: 10;
+            width: 100%; max-width: 100vw; /* Taşmayı önle */
+            padding: 60px 20px 40px; box-sizing: border-box; 
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        /* --- YENİ: Yanıp Sönen Yıldızlar --- */
-        .stars-layer-1, .stars-layer-2 {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0;
-        }
-        .stars-layer-1 {
-            background-image: radial-gradient(white 1px, transparent 1px);
-            background-size: 50px 50px; opacity: 0.3;
-            animation: twinkle 3s infinite ease-in-out;
-        }
-        .stars-layer-2 {
-            background-image: radial-gradient(white 2px, transparent 2px);
-            background-size: 120px 120px; background-position: 20px 20px; opacity: 0.4;
-            animation: twinkle 5s infinite ease-in-out alternate;
-        }
-        @keyframes twinkle { 0% {opacity: 0.2;} 50% {opacity: 0.5;} 100% {opacity: 0.2;} }
+        .luna-header { text-align: center; margin-bottom: 20px; width: 100%; }
+        .luna-title { font-family: 'Didot', serif; font-size: 36px; letter-spacing: 4px; margin: 0; color: white; text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+        #luna-status-text { color: #a5a5cc; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
 
-        /* --- GELİŞMİŞ AY GÖRSELİ (Evreler İçin) --- */
-        .moon-stage { position: relative; width: 200px; height: 200px; margin: 20px 0 40px; display: flex; justify-content: center; align-items: center; }
+        /* 4. YILDIZLAR */
+        #stars, #stars2, #stars3 { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        #stars { width: 1px; height: 1px; box-shadow: 10vw 10vh #FFF, 20vw 40vh #FFF, 80vw 10vh #FFF, 50vw 80vh #FFF, 90vw 90vh #FFF; animation: animStar 50s linear infinite; opacity: 0.6; }
+        #stars2 { width: 2px; height: 2px; box-shadow: 15vw 15vh #FFF, 35vw 45vh #FFF, 75vw 25vh #FFF; animation: animStar 100s linear infinite; opacity: 0.4; }
+        @keyframes animStar { from { transform: translateY(0); } to { transform: translateY(-100vh); } }
+
+        /* 5. AY GÖRSELİ */
+        .moon-stage { position: relative; width: 180px; height: 180px; margin: 10px 0 30px; display: flex; justify-content: center; align-items: center; z-index: 15; flex-shrink: 0; }
+        .moon-halo { position: absolute; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%); animation: pulseHalo 4s infinite; }
+        .realistic-moon { width: 160px; height: 160px; border-radius: 50%; background: #dcdce6; position: relative; overflow: hidden; box-shadow: inset -10px -10px 30px rgba(0,0,0,0.9), 0 0 20px rgba(255,255,255,0.2); }
+        .moon-texture { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(0,0,0,0.1) 15%, transparent 16%); background-size: 40px 40px; opacity: 0.4; }
+        .moon-shadow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; background: rgba(9, 10, 15, 0.9); transition: transform 0.5s ease; transform: translateX(100%); }
         
-        .moon-halo {
-            position: absolute; width: 240px; height: 240px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-            animation: pulseHalo 4s infinite ease-in-out; z-index: 1;
+        /* DÜZELTİLDİ: YAZI RENGİ BEYAZ */
+        .moon-overlay-text { 
+            position: absolute; z-index: 20; text-align: center; 
+            color: #FFFFFF; /* BEYAZ YAZI */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9); /* Siyah Gölge (Okunabilirlik için) */
         }
+        .moon-overlay-text span { font-size: 50px; font-weight: 700; display: block; line-height: 0.9; font-family: 'Didot', serif; }
         @keyframes pulseHalo { 0%,100%{transform:scale(1); opacity:0.5;} 50%{transform:scale(1.1); opacity:0.8;} }
 
-        .realistic-moon {
-            width: 180px; height: 180px; border-radius: 50%;
-            background: #dcdce6; /* Ayın taban rengi */
-            position: relative; overflow: hidden;
-            box-shadow: inset -10px -10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.2);
-            z-index: 2;
-        }
-        
-        /* Krater Dokusu */
-        .moon-texture {
-            position: absolute; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(0,0,0,0.1) 15%, transparent 16%), radial-gradient(rgba(0,0,0,0.1) 10%, transparent 11%);
-            background-size: 60px 60px, 100px 100px; background-position: 0 0, 30px 30px;
-            opacity: 0.6;
-        }
-
-        /* EVRE GÖLGESİ (JS ile kontrol edilecek) */
-        .moon-shadow {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border-radius: 50%;
-            background: rgba(11, 11, 20, 0.85); /* Gölge rengi (Arka planla uyumlu) */
-            transition: transform 0.5s ease;
-            /* Varsayılan: Dolunay (Gölge yok veya kenarda) */
-            transform: translateX(100%); 
-            box-shadow: inset 10px 0 20px rgba(0,0,0,0.9);
-        }
-
-        .moon-overlay-text {
-            position: absolute; z-index: 10; text-align: center;
-            color: #1a1a2e; text-shadow: 0 1px 0 rgba(255,255,255,0.4);
-        }
-        .moon-overlay-text span { font-size: 64px; font-weight: 700; display: block; line-height: 0.9; font-family: 'Didot', serif; }
-
-        /* Kart ve Butonlar */
-        .luna-info-card {
-            background: rgba(255,255,255,0.08); backdrop-filter: blur(10px);
-            padding: 20px; border-radius: 20px; width: 100%; text-align: center;
-            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;
-        }
-        .luna-actions { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
-        .luna-btn { padding: 16px; border-radius: 15px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; color: white; transition: transform 0.2s; }
+        /* 6. KARTLAR & BUTONLAR */
+        .luna-info-card { background: rgba(255,255,255,0.08); padding: 15px; border-radius: 20px; width: 100%; text-align: center; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; flex-shrink: 0; }
+        .luna-actions { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; flex-shrink: 0; }
+        .luna-btn { padding: 16px; border-radius: 15px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; color: white; position: relative; z-index: 20; }
         .luna-btn:active { transform: scale(0.95); }
-        .start-btn { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); flex: 1; box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4); }
-        .end-btn { background: #2c3e50; width: 30%; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .notify-btn { background: #25D366; width: 100%; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .start-btn { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); flex: 1; }
+        .end-btn { background: #2c3e50; width: 30%; }
+        .notify-btn { background: #25D366; width: 100%; }
 
-        /* --- TAKVİM (NAVİGASYONLU) --- */
-        .luna-calendar-section { width: 100%; background: rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        /* 7. TAKVİM */
+        .luna-calendar-section { width: 100%; background: rgba(255,255,255,0.08); border-radius: 20px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); margin-top: 10px; display: block; z-index: 20; flex-shrink: 0; }
+        .cal-top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .cal-nav { display: flex; align-items: center; gap: 10px; color: white; font-weight: bold; }
+        .cal-nav button { background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 5px; }
+        .reset-data-btn { background: rgba(255, 59, 48, 0.2); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.3); padding: 5px 10px; border-radius: 10px; font-size: 11px; cursor: pointer; }
         
-        .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .cal-nav button { background: none; border: none; color: white; font-size: 18px; padding: 5px 15px; cursor: pointer; }
-        #cal-month-year { font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        .calendar-grid-header, .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+        .calendar-grid-header { margin-bottom: 10px; font-size: 12px; color: #aaa; }
+        .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #ddd; border-radius: 50%; position: relative; }
+        .cal-day.today { border: 1px solid rgba(255,255,255,0.8); font-weight: bold; background: rgba(255,255,255,0.1); }
+        
+        /* İşaretçiler */
+        .cal-day.start-marker::after { content: '💧'; position: absolute; bottom: -5px; right: -2px; font-size: 10px; z-index:5; }
+        .cal-day.start-marker { background: rgba(255, 65, 108, 0.5); border: 1px solid #ff416c; }
+        .cal-day.end-marker::after { content: '✨'; position: absolute; bottom: -5px; right: -2px; font-size: 10px; z-index:5; }
+        .cal-day.end-marker { border: 1px solid #a18cd1; background: rgba(161, 140, 209, 0.3); }
+        .cal-day.in-period { background: rgba(255, 65, 108, 0.2); }
+        .cal-day.in-ovulation { background: rgba(161, 140, 209, 0.2); border: 1px dashed rgba(161, 140, 209, 0.5); }
+        .cal-legend { display: flex; gap: 15px; justify-content: center; margin-top: 15px; font-size: 11px; color: #888; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display:inline-block; margin-right:5px; } .dot.red { background: #ff416c; } .dot.purple { background: #a18cd1; }
 
-        .calendar-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 10px; text-align: center; font-size: 12px; color: #888; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 15px; }
+
+
+        /* --- LOVE LAB V2 CSS --- */
         
-        .cal-day {
-            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-            font-size: 13px; color: #ddd; border-radius: 50%;
+        /* Temel Lab Ayarları */
+        .lab-close-btn { position: absolute; top: max(20px, env(safe-area-inset-top)); right: 20px; width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); border: none; color: white; cursor: pointer; z-index: 20; }
+        .lab-bg-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(80, 20, 80, 0.4) 0%, #1a0f2e 80%); pointer-events: none; }
+        .lab-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 50px; z-index: 5; }
+
+        /* Kazan */
+        .cauldron-area { position: relative; width: 180px; height: 200px; display: flex; justify-content: center; margin: 10px 0; }
+        .cauldron { width: 140px; height: 120px; background: #2a2a3a; border-radius: 0 0 70px 70px; position: relative; top: 30px; border: 4px solid #555; overflow: hidden; transition: transform 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .cauldron.shaking { animation: shakeCauldron 0.5s infinite; }
+        .liquid-surface { position: absolute; bottom: 0; left: 0; width: 100%; height: 20%; background: #333; transition: all 0.5s ease; }
+        .cauldron::before { content: ''; position: absolute; top: -10px; left: -5%; width: 110%; height: 20px; background: #3a3a4a; border-radius: 50%; border: 4px solid #555; z-index: 5; }
+        .bubbles span { position: absolute; bottom: 0; background: rgba(255,255,255,0.3); border-radius: 50%; animation: bubbleUp 2s infinite; opacity: 0; }
+        .cauldron-items-preview { position: absolute; top: 40%; width: 100%; display: flex; justify-content: center; gap: 3px; z-index: 6; }
+        .mini-item { width: 20px; height: 20px; font-size: 12px; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.3); border-radius: 50%; animation: dropIn 0.3s forwards; color: white; }
+
+        /* Raf ve Butonlar */
+        .ingredients-shelf { width: 92%; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; margin-top: auto; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.1); }
+        .ingredients-shelf h3 { text-align: center; margin: 0 0 10px 0; color: #d57eeb; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .shelf-grid { display: flex; justify-content: space-around; }
+        .ingredient { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.1s; }
+        .ingredient:active { transform: scale(0.9); }
+        .ing-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 22px; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .ingredient span { font-size: 10px; color: #ccc; }
+
+        .mix-button { padding: 12px 40px; background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); border: none; border-radius: 30px; color: white; font-weight: bold; font-size: 16px; margin: 15px 0; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+        .mix-button.disabled { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
+
+        /* Sonuç Kartı ve WhatsApp */
+        .result-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 50; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .result-overlay.active { opacity: 1; pointer-events: auto; }
+        .result-card { background: linear-gradient(180deg, #201c2e 0%, #100a1c 100%); width: 85%; padding: 25px; border-radius: 25px; text-align: center; border: 1px solid #d57eeb; transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 40px rgba(213, 126, 235, 0.2); position: relative; z-index: 55; }
+        .result-overlay.active .result-card { transform: scale(1); }
+        
+        .result-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .whatsapp-btn { background: #25D366; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .collect-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 10px; border-radius: 12px; cursor: pointer; font-size: 13px; }
+
+        /* --- ÖZEL EFEKT ANİMASYONLARI --- */
+        #result-effect-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; overflow: hidden; }
+        
+        .effect-heart { position: absolute; color: #ff4b5c; font-size: 20px; animation: fallDown 3s linear forwards; }
+        .effect-fire { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255, 69, 0, 0.3) 0%, transparent 70%); animation: pulseRed 0.5s infinite; }
+        .effect-rain { position: absolute; background: #54a0ff; width: 2px; height: 10px; animation: rainFall 1s linear infinite; }
+        
+        @keyframes shakeCauldron { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+        @keyframes bubbleUp { 0% { bottom: 0; opacity: 0; } 50% { opacity: 1; } 100% { bottom: 100%; opacity: 0; } }
+        @keyframes dropIn { 0% { transform: translateY(-30px); opacity:0; } 100% { transform: translateY(0); opacity:1; } }
+        @keyframes fallDown { 0% { top: -10%; transform: translateX(0); opacity: 1; } 100% { top: 110%; transform: translateX(20px); opacity: 0; } }
+        @keyframes rainFall { 0% { top: -10%; opacity: 1; } 100% { top: 110%; opacity: 0.5; } }
+        @keyframes pulseRed { 0% { opacity: 0.2; } 50% { opacity: 0.6; } 100% { opacity: 0.2; } }
+
+        /* --- NEON GARDEN STİLLERİ --- */
+        #app-garden .modal-content { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        
+        #garden-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            cursor: crosshair; touch-action: none; /* Mobilde kaydırmayı engelle */
         }
-        .cal-day.today { border: 1px solid rgba(255,255,255,0.8); font-weight: bold; }
-        .cal-day.other-month { opacity: 0.2; }
-        
-        /* İşaretleyiciler */
-        .cal-day.active-period { background: #ff416c; box-shadow: 0 0 8px rgba(255, 65, 108, 0.6); color: white; }
-        .cal-day.active-ovulation { background: #a18cd1; color: white; }
-        .cal-day.active-ended { border: 2px solid #ff416c; color: #ff416c; font-weight: bold; } /* Bitti işareti */
 
-        .cal-legend { display: flex; gap: 15px; justify-content: center; font-size: 11px; color: #888; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; display:inline-block; margin-right:5px; }
-        .dot.red { background: #ff416c; } .dot.purple { background: #a18cd1; }
+        .garden-controls {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 15px; z-index: 50;
+        }
+
+        .garden-controls button {
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white; padding: 10px 20px; border-radius: 20px;
+            font-size: 14px; cursor: pointer; backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+        .garden-controls button:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+        .garden-controls button:active { transform: scale(0.95); }
+
 
 
     </style>
@@ -1173,6 +1212,20 @@
     <span class="icon-label">Luna</span>
 </div>
 
+<div class="app-icon" onclick="openApp('lovelab')">
+    <div class="icon-box" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); border: 1px solid rgba(255,255,255,0.2); font-size: 32px; box-shadow: 0 5px 15px rgba(213, 126, 235, 0.4);">
+        🧪
+    </div>
+    <span class="icon-label">Love Lab</span>
+</div>
+
+
+<div class="app-icon" onclick="openApp('garden')">
+    <div class="icon-box" style="background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); border: 1px solid #39ff14; font-size: 32px; box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);">
+        🌱
+    </div>
+    <span class="icon-label">Neon Garden</span>
+</div>
 
 
             </div>
@@ -1719,13 +1772,16 @@
     </div>
 </div>
 
+
+
 <div id="app-luna" class="app-modal">
-    <div class="modal-content" style="background: #0b0b14; color: white; padding: 0; overflow-y: auto; overflow-x: hidden; position: relative;">
+    <div class="modal-content" style="background: #0b0b14; padding: 0; overflow-x: hidden; overflow-y: auto; position: relative;">
         
         <button class="luna-close-absolute" onclick="closeApp('luna')">✕</button>
 
-        <div class="stars-layer-1"></div>
-        <div class="stars-layer-2"></div>
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
 
         <div class="luna-container">
             <div class="luna-header">
@@ -1747,7 +1803,7 @@
 
             <div class="luna-info-card">
                 <div class="phase-name" id="phase-name">Hoş Geldin</div>
-                <p class="phase-desc" id="phase-desc">Döngünü takip etmek için aşağıdan başlangıç tarihini seç.</p>
+                <p class="phase-desc" id="phase-desc">...</p>
             </div>
 
             <div class="luna-actions">
@@ -1761,10 +1817,13 @@
             </div>
 
             <div class="luna-calendar-section">
-                <div class="cal-nav">
-                    <button onclick="changeLunaMonth(-1)">❮</button>
-                    <span id="cal-month-year">Ocak 2025</span>
-                    <button onclick="changeLunaMonth(1)">❯</button>
+                <div class="cal-top-bar">
+                    <div class="cal-nav">
+                        <button onclick="changeLunaMonth(-1)">❮</button>
+                        <span id="cal-month-year">...</span>
+                        <button onclick="changeLunaMonth(1)">❯</button>
+                    </div>
+                    <button class="reset-data-btn" onclick="resetLunaData()"> Sıfırla</button>
                 </div>
                 
                 <div class="calendar-grid-header">
@@ -1779,8 +1838,92 @@
                 </div>
             </div>
 
-            <div style="height: 50px;"></div>
+            <div style="height: 80px;"></div>
         </div>
+    </div>
+</div>
+
+<div id="app-lovelab" class="app-modal">
+    <div class="modal-content" style="background: #1a0f2e; color: white; padding: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; align-items: center;">
+        
+        <button class="lab-close-btn" onclick="closeApp('lovelab')">✕</button>
+
+        <div class="lab-bg-glow"></div>
+
+        <div id="result-effect-container"></div>
+
+        <div class="lab-container">
+            <h2 class="lab-title" style="font-family: 'Didot', serif; margin-top: 20px; text-shadow: 0 0 10px #d57eeb;">Aşk Laboratuvarı</h2>
+            <p style="color: #aaa; font-size: 12px; margin-bottom: 10px;">Sıralama önemlidir! Önce neyi attığın sonucu değiştirir.</p>
+
+            <div class="cauldron-area">
+                <div class="cauldron" id="main-cauldron">
+                    <div class="liquid-surface"></div>
+                    <div class="bubbles"><span></span><span></span><span></span><span></span><span></span></div>
+                    <div class="cauldron-items-preview" id="cauldron-preview"></div>
+                </div>
+                <div class="cauldron-base"></div>
+            </div>
+
+            <button id="mix-btn" class="mix-button disabled" onclick="brewPotion()">⚗️ KARIŞTIR</button>
+
+            <div class="ingredients-shelf">
+                <h3>Özler (Sırayla Seç)</h3>
+                <div class="shelf-grid">
+                    <div class="ingredient" onclick="addToCauldron('love')">
+                        <div class="ing-icon" style="background: #ff4b5c;">❤️</div><span>Sevgi</span>
+                    </div>
+                    <div class="ingredient" onclick="addToCauldron('passion')">
+                        <div class="ing-icon" style="background: #ff9f43;">🔥</div><span>Tutku</span>
+                    </div>
+                    <div class="ingredient" onclick="addToCauldron('attention')">
+                        <div class="ing-icon" style="background: #feca57;">✨</div><span>İlgi</span>
+                    </div>
+                    <div class="ingredient" onclick="addToCauldron('sweet')">
+                        <div class="ing-icon" style="background: #d57eeb;">🍫</div><span>Tatlı</span>
+                    </div>
+                    <div class="ingredient" onclick="addToCauldron('trip')">
+                        <div class="ing-icon" style="background: #54a0ff;">💧</div><span>Trip</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="potion-result-overlay" class="result-overlay hidden">
+            <div class="result-card">
+                <div class="result-icon" id="result-icon">🎉</div>
+                <h3 id="result-title">Sonuç</h3>
+                <p id="result-desc">...</p>
+                
+                <div class="result-actions">
+                    <button class="whatsapp-btn" onclick="shareResultOnWP()">
+                        <span style="font-size:18px; margin-right:5px;">📱</span> WhatsApp'tan At
+                    </button>
+                    <button class="collect-btn" onclick="closeResultOverlay()">Tamam</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="app-garden" class="app-modal">
+    <div class="modal-content" style="background: #000; padding: 0; overflow: hidden; position: relative;">
+        
+        <button class="lab-close-btn" onclick="closeApp('garden')" style="z-index: 100;">✕</button>
+
+        <div class="garden-controls">
+            <button onclick="clearGarden()">🗑️ Temizle</button>
+            <button onclick="saveGarden()">📸 Kaydet</button>
+        </div>
+
+        <canvas id="garden-canvas"></canvas>
+        
+        <div id="garden-hint" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255,255,255,0.3); pointer-events: none; text-align: center;">
+            <div style="font-size: 40px; margin-bottom: 10px;">👆</div>
+            <p>Bahçeni büyütmek için dokun ve sürükle...</p>
+        </div>
+
     </div>
 </div>
 
@@ -2602,39 +2745,63 @@ window.closeApp = function(id) {
             if(id==='zen') switchZenTab('breath');
         };
 
-               /* --- LUNA V3.0 MANTIĞI (TAKVİM GEZİNTİSİ & AY EVRELERİ) --- */
-        
-        // Veri Yapısı: Başlangıç ve Süre
+
+                        /* --- LUNA V7 JS (REAL CALENDAR + FIX) --- */
         let lunaData = JSON.parse(localStorage.getItem('luna_data')) || { startDate: null, periodLength: 5 };
-        let currentCalDate = new Date(); // Takvimde şu an görüntülenen ay
+        let currentCalDate = new Date(); 
 
         const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-        
         const phases = {
-            period: { t: "Regl Dönemi", d: "Dinlenme zamanı prensesim. 🩸", color: "#ff416c", msg: "Aşkım Kırmızı Kod! 🚨 Regl başladı, ilgi ve çikolata bekleniyor!" },
-            follicular: { t: "Yükseliş", d: "Enerjin harika, parlıyorsun! ✨", color: "#ffc3a0", msg: "Regl bitti, enerjim tavan! 💃" },
-            ovulation: { t: "Yumurtlama", d: "En çekici olduğun günler! 🔥", color: "#a18cd1", msg: "Dikkat: Göz kamaştırıyorum! 😎" },
-            luteal: { t: "PMS", d: "Biraz sakinlik iyi gelebilir. 🧘‍♀️", color: "#7b7b8a", msg: "PMS dönemindeyim, biraz nazlı olabilirim... 🥺" }
+            period: { t: "Regl Dönemi", d: "Dinlenme zamanı prensesim. 🩸", color: "#ffffff", msg: "Aşkım Kırmızı Kod! 🚨" },
+            follicular: { t: "Yükseliş", d: "Enerjin harika, parlıyorsun! ✨", color: "#ffc3a0", msg: "Enerjim tavan! 💃" },
+            ovulation: { t: "Yumurtlama", d: "En çekici olduğun günler! 🔥", color: "#a18cd1", msg: "Göz kamaştırıyorum! 😎" },
+            luteal: { t: "PMS", d: "Biraz sakinlik iyi gelebilir. 🧘‍♀️", color: "#7b7b8a", msg: "PMS dönemindeyim... 🥺" }
         };
 
         function initLuna() {
+            lunaData = JSON.parse(localStorage.getItem('luna_data')) || { startDate: null, periodLength: 5 };
             updateLunaUI();
             renderCalendar();
         }
 
-        // --- BUTON FONKSİYONLARI ---
-        
+        // --- GERÇEK TAKVİME EKLEME ---
+        function addToRealCalendar(title, startISO) {
+            const s = new Date(startISO);
+            const e = new Date(s.getTime() + (60*60*1000));
+            const formatDate = (date) => date.toISOString().replace(/-|:|\.\d\d\d/g,"");
+            const icsContent = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${title} ❤️
+DTSTART:${formatDate(s)}
+DTEND:${formatDate(e)}
+DESCRIPTION:Sumru'nun özel takvimi. İlgi gösterilmesi gereken günler!
+END:VEVENT
+END:VCALENDAR`;
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'regl_baslangic.ics');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
         function setCycleStart() {
             if(confirm("Regl başlangıcını BUGÜN olarak işaretleyelim mi?")) {
-                lunaData.startDate = new Date().toISOString();
-                lunaData.periodLength = 5; // Varsayılan süreye dön
+                const now = new Date();
+                lunaData.startDate = now.toISOString();
+                lunaData.periodLength = 5;
                 localStorage.setItem('luna_data', JSON.stringify(lunaData));
                 
-                // KALP & KONFETİ PATLAMASI 💥
                 createHeartExplosion();
-                
-                updateLunaUI();
-                renderCalendar();
+                initLuna();
+
+                if(confirm("Bunu telefonundaki takvime de eklemek ister misin?")) {
+                    addToRealCalendar("Sumru Regl Başlangıç", lunaData.startDate);
+                }
             }
         }
 
@@ -2642,180 +2809,703 @@ window.closeApp = function(id) {
             if(!lunaData.startDate) return alert("Önce döngü başlamalı.");
             const start = new Date(lunaData.startDate);
             const today = new Date();
-            // Gün farkını bul
-            const diffTime = Math.abs(today - start);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            start.setHours(0,0,0,0); today.setHours(0,0,0,0);
             
-            if(diffDays > 10 || diffDays < 1) {
-                alert("Tarihlerde bir gariplik var, lütfen başlangıcı kontrol et.");
+            const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
+            
+            if(diffDays > 35 || diffDays < 1) {
+                alert("Tarih hatası.");
             } else {
-                lunaData.periodLength = diffDays; // Süreyi güncelle
+                lunaData.periodLength = diffDays; 
                 localStorage.setItem('luna_data', JSON.stringify(lunaData));
-                alert(`Regl ${diffDays} gün sürdü. Takvime işlendi! ✅`);
-                updateLunaUI();
-                renderCalendar();
+                alert(`Regl ${diffDays} gün sürdü. Takvime işlendi! ✨`);
+                initLuna();
             }
         }
 
-        // --- UI & AY GÖRSELİ GÜNCELLEME ---
-        
+        function resetLunaData() {
+            if(confirm("Verileri SIFIRLAMAK istiyor musun?")) {
+                localStorage.removeItem('luna_data');
+                lunaData = { startDate: null, periodLength: 5 };
+                initLuna();
+            }
+        }
+
         function updateLunaUI() {
             const dayDisplay = document.getElementById('cycle-day-num');
             const phaseTitle = document.getElementById('phase-name');
             const phaseDesc = document.getElementById('phase-desc');
             const statusText = document.getElementById('luna-status-text');
             const moonShadow = document.getElementById('moon-shadow-mask');
-            const moonGlow = document.getElementById('moon-glow');
-
+            
             if(!lunaData.startDate) {
-                dayDisplay.innerText = "--";
-                statusText.innerText = "VERİ YOK";
-                moonShadow.style.transform = "translateX(0)"; // Yeni Ay (Karanlık)
+                dayDisplay.innerText = "--"; statusText.innerText = "VERİ BEKLENİYOR";
+                moonShadow.style.transform = "translateX(0)"; 
+                phaseTitle.innerText = "Hoş Geldin"; phaseDesc.innerText = "Takip için 'Başladı'ya bas.";
                 return;
             }
 
             const start = new Date(lunaData.startDate);
             const today = new Date();
-            const diffTime = Math.abs(today - start);
-            const dayOfCycle = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            start.setHours(0,0,0,0); today.setHours(0,0,0,0);
             
-            dayDisplay.innerText = dayOfCycle;
-            statusText.innerText = `DÖNGÜNÜN ${dayOfCycle}. GÜNÜ`;
+            const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
+            dayDisplay.innerText = diffDays;
+            statusText.innerText = `DÖNGÜNÜN ${diffDays}. GÜNÜ`;
 
-            // Evre Belirleme
-            let pKey = 'luteal';
-            if(dayOfCycle <= lunaData.periodLength) pKey = 'period';
-            else if(dayOfCycle <= 11) pKey = 'follicular';
-            else if(dayOfCycle <= 16) pKey = 'ovulation';
+            let pk = 'luteal';
+            if(diffDays <= lunaData.periodLength) pk = 'period';
+            else if(diffDays <= 11) pk = 'follicular';
+            else if(diffDays <= 16) pk = 'ovulation';
             
-            const p = phases[pKey];
-            phaseTitle.innerText = p.t;
-            phaseDesc.innerText = p.d;
-            phaseTitle.style.color = p.color;
-            window.currentLunaMsg = p.msg;
-            
-            // Ayın Arkasındaki Glow Rengi
-            moonGlow.style.background = `radial-gradient(circle, ${p.color} 0%, transparent 70%)`;
+            const p = phases[pk];
+            phaseTitle.innerText = p.t; phaseDesc.innerText = p.d; 
+            phaseTitle.style.color = p.color; window.lunaMsg = p.msg;
 
-            // --- AYIN EVRESİ SİMÜLASYONU ---
-            // 1-14 arası Dolunaya gider, 14-28 arası Yeni aya döner
-            // Basit bir gölge kaydırma mantığı:
-            // -100% (Sol) -> 0% (Orta/Yeni Ay) -> 100% (Sağ/Dolunay)
-            // Bu basit bir görsel hiledir.
-            
-            let phasePercent;
-            if(dayOfCycle <= 14) {
-                // Dolunaya doğru (Aydınlanıyor)
-                // Gölge sağa çekilmeli
-                phasePercent = (dayOfCycle / 14) * 200; // 0 to 200
-                moonShadow.style.transform = `translateX(${phasePercent}%)`;
-                moonShadow.style.opacity = dayOfCycle === 14 ? 0 : 0.8; // 14. gün tam parlak
+            let cyclePos = diffDays % 30;
+            let percent;
+            if(cyclePos <= 15) {
+                percent = (cyclePos / 15) * 200; 
+                moonShadow.style.transform = `translateX(${percent}%)`;
+                moonShadow.style.opacity = (cyclePos >= 13 && cyclePos <= 16) ? 0 : 0.85;
             } else {
-                // Yeni aya doğru (Kararıyor)
-                // Gölge geri gelmeli ama diğer taraftan
-                let waning = dayOfCycle - 14;
-                phasePercent = 200 - ((waning / 14) * 200);
-                moonShadow.style.transform = `translateX(${phasePercent}%)`;
-                 moonShadow.style.opacity = 0.8;
+                let waning = cyclePos - 15;
+                percent = 200 - ((waning / 15) * 200);
+                moonShadow.style.transform = `translateX(${percent}%)`;
+                moonShadow.style.opacity = 0.85;
             }
         }
 
-        // --- TAKVİM MANTIĞI (GEZİNTİLİ) ---
-
-        function changeLunaMonth(delta) {
-            currentCalDate.setMonth(currentCalDate.getMonth() + delta);
-            renderCalendar();
-        }
+        function changeLunaMonth(d) { currentCalDate.setMonth(currentCalDate.getMonth() + d); renderCalendar(); }
 
         function renderCalendar() {
             const cal = document.getElementById('luna-calendar');
             const header = document.getElementById('cal-month-year');
             cal.innerHTML = '';
             
-            const year = currentCalDate.getFullYear();
-            const month = currentCalDate.getMonth();
+            const y = currentCalDate.getFullYear(); const m = currentCalDate.getMonth();
+            header.innerText = `${monthNames[m]} ${y}`;
+            let fDay = new Date(y, m, 1).getDay(); fDay = fDay===0?6:fDay-1;
+            const dim = new Date(y, m + 1, 0).getDate();
+
+            for(let i=0; i<fDay; i++) cal.appendChild(document.createElement('div'));
             
-            header.innerText = `${monthNames[month]} ${year}`;
+            for(let i=1; i<=dim; i++) {
+                const el = document.createElement('div'); el.className = 'cal-day'; el.innerText = i;
+                const t = new Date();
+                if(i===t.getDate() && m===t.getMonth() && y===t.getFullYear()) el.classList.add('today');
 
-            // Ayın ilk günü hangi gün? (0 Pazar - 6 Cumartesi)
-            // Pazartesi(1) başlasın istiyoruz.
-            let firstDayIndex = new Date(year, month, 1).getDay(); 
-            firstDayIndex = firstDayIndex === 0 ? 6 : firstDayIndex - 1; // Pzt=0 yap
-            
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            // Boşlukları doldur
-            for(let i=0; i<firstDayIndex; i++) {
-                const empty = document.createElement('div');
-                cal.appendChild(empty);
-            }
-
-            // Günleri doldur
-            for(let i=1; i<=daysInMonth; i++) {
-                const dayEl = document.createElement('div');
-                dayEl.classList.add('cal-day');
-                dayEl.innerText = i;
-                
-                // Bugün mü?
-                const today = new Date();
-                if(i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                    dayEl.classList.add('today');
-                }
-
-                // Regl ve Yumurtlama İşaretleme
                 if(lunaData.startDate) {
-                    const start = new Date(lunaData.startDate);
-                    const checkDate = new Date(year, month, i);
-                    
-                    // Gün farkı (Zamanı sıfırla ki saat farkı olmasın)
-                    start.setHours(0,0,0,0);
-                    checkDate.setHours(0,0,0,0);
-                    
-                    const diffTime = checkDate - start;
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    const s = new Date(lunaData.startDate); const c = new Date(y, m, i);
+                    s.setHours(0,0,0,0); c.setHours(0,0,0,0);
+                    const diff = Math.floor((c - s) / (1000 * 60 * 60 * 24)) + 1;
 
-                    if(diffDays >= 0 && diffDays < lunaData.periodLength) {
-                        dayEl.classList.add('active-period'); // Kırmızı
-                    } else if(diffDays >= 12 && diffDays <= 16) {
-                        dayEl.classList.add('active-ovulation'); // Mor
-                    }
+                    if(diff === 1) el.classList.add('start-marker');
+                    else if(diff > 1 && diff < lunaData.periodLength) el.classList.add('in-period');
+                    else if(diff === lunaData.periodLength) el.classList.add('end-marker');
                     
-                    // Regl Bitiş Günü İşareti
-                    if(diffDays === lunaData.periodLength) {
-                         // Eğer o gün bittiyse işaretle (Basit görsel)
-                    }
+                    if(diff >= 12 && diff <= 16) el.classList.add('in-ovulation');
+                }
+                cal.appendChild(el);
+            }
+        }
+
+        function notifyHusbandStatus() { if(window.lunaMsg) location.href=`https://api.whatsapp.com/send?phone=905315581447&text=${encodeURIComponent(window.lunaMsg)}`; else alert("Veri yok."); }
+        
+        function createHeartExplosion() {
+            const m = document.getElementById('app-luna');
+            for(let i=0; i<60; i++) {
+                const c = document.createElement('div'); c.className='confetti'; c.innerText=['❤️','🩸','✨'][Math.floor(Math.random()*3)];
+                c.style.left='50%'; c.style.top='40%'; c.style.fontSize=(Math.random()*20+15)+'px';
+                c.style.setProperty('--x',(Math.random()-0.5)*500+'px'); c.style.setProperty('--y',(Math.random()-0.5)*500+'px'); c.style.setProperty('--r',(Math.random()*360)+'deg');
+                m.appendChild(c); setTimeout(()=>c.remove(),2000);
+            }
+        }
+
+    /* =================================================================
+       APP: LOVE LAB (AŞK LABORATUVARI) - 125 KOMBİNASYONLU DEV SCRIPT
+       ================================================================= */
+    
+    // Değişkenler
+    let cauldronIngredients = [];
+    const maxIngredients = 3;
+    let lastResultText = ""; 
+
+    const ingredientData = {
+        'love': { color: '#ff4b5c', icon: '❤️' }, 
+        'passion': { color: '#ff9f43', icon: '🔥' },
+        'attention': { color: '#feca57', icon: '✨' }, 
+        'sweet': { color: '#d57eeb', icon: '🍫' }, 
+        'trip': { color: '#54a0ff', icon: '💧' }
+    };
+
+    // --- 125 FARKLI SENARYO (SIRA ÖNEMLİ) ---
+    const potionRecipes = {
+        // --- ❤️ SEVGİ (LOVE) BAŞLANGIÇLARI ---
+        'love-love-love': { t: "Aşk Sarhoşluğu", d: "Gözü senden başkasını görmüyor. Dünyası sensin!", i: "😍", fx: "heart" },
+        'love-love-passion': { t: "Romantik Akşam", d: "Mum ışığı, güzel sözler ve ateşli bakışlar.", i: "🕯️", fx: "heart" },
+        'love-love-attention': { t: "Kucak Kedisi", d: "Sürekli gelip sana sarılmak isteyecek. Temas bağımlısı!", i: "🐱", fx: "heart" },
+        'love-love-sweet': { t: "Pamuk Şeker", d: "Dünyanın en tatlı kocası modu aktif.", i: "🍬", fx: "sparkle" },
+        'love-love-trip': { t: "Şımarık Aşık", d: "Seni o kadar çok seviyor ki, nazın bile ona bal gibi geliyor.", i: "😽", fx: "heart" },
+        
+        'love-passion-love': { t: "Tutku Sandviçi", d: "Aşkla başlayıp aşkla biten, ortası alev alev bir gün.", i: "🥪", fx: "fire" },
+        'love-passion-passion': { t: "Ateşli Aşk", d: "Seni her gördüğünde kalbi hızlanacak.", i: "💓", fx: "fire" },
+        'love-passion-attention': { t: "Göz Hapsi", d: "Seni izlemekten kendini alamıyor. Kaçış yok!", i: "👀", fx: "fire" },
+        'love-passion-sweet': { t: "İdeal Randevu", d: "Romantik başla, tutkulu devam et, tatlı bitir. Kusursuz.", i: "🍷", fx: "heart" },
+        'love-passion-trip': { t: "Tehlikeli Cazibe", d: "Seni hem çok arzuluyor hem de biraz çekiniyor.", i: "🐆", fx: "fire" },
+
+        'love-attention-love': { t: "Pervane", d: "Etrafında dönüp duruyor. 'Bir isteğin var mı aşkım?'", i: "🚁", fx: "sparkle" },
+        'love-attention-passion': { t: "Hayranlık", d: "Sana bakıp 'Ben bu kadını nasıl tavladım?' diyor.", i: "🤩", fx: "heart" },
+        'love-attention-sweet': { t: "Hediye Canavarı", d: "Eve gelirken elinde sevdiğin bir şeyle gelme ihtimali %100.", i: "🎁", fx: "sparkle" },
+        'love-attention-trip': { t: "Panik Atak", d: "İlgilendi ama yetmedi mi? Şimdi telafi çabasında.", i: "🏃‍♂️", fx: "rain" },
+
+        'love-sweet-love': { t: "Anaç Şefkat", d: "Başını dizine koyup uyumak istiyor. Çok huzurlu.", i: "🐣", fx: "heart" },
+        'love-sweet-passion': { t: "Masum Tehlike", d: "Aşkla kandırıp tatlılıkla yaklaştın, sonra yaktın!", i: "🧨", fx: "fire" },
+        'love-sweet-attention': { t: "Prenses Modu", d: "Seni el üstünde tutacak. Ayaklarına masaj yapabilir.", i: "👸", fx: "sparkle" },
+        'love-sweet-trip': { t: "Duygusal Dalgalanma", d: "Önce sevdi, sonra güldürdü, en son ağlattı mı? Koca kafası karışık.", i: "🌊", fx: "rain" },
+
+        'love-trip-love': { t: "Barışma Garantisi", d: "Kavga etseniz bile sonu yatakta biter.", i: "🏳️", fx: "heart" },
+        'love-trip-passion': { t: "Hırçın Sevgi", d: "Kızgınlığın bile ona çekici geliyor.", i: "😼", fx: "fire" },
+        'love-trip-attention': { t: "Suçluluk", d: "Seni üzdüğünü sandı, şimdi affettirmek için kul köle.", i: "🥺", fx: "rain" },
+        'love-trip-sweet': { t: "Gönül Alma", d: "Trip attın ama o kadar tatlısın ki dayanamadı.", i: "💐", fx: "sparkle" },
+        'love-trip-trip': { t: "Duygusal Hız Treni", d: "Önce sevdin, sonra iki kere üzdün. Kocan pert!", i: "🎢", fx: "rain" },
+
+        // --- 🔥 TUTKU (PASSION) BAŞLANGIÇLARI ---
+        'passion-passion-passion': { t: "Volkanik Patlama", d: "Ortalık yanıyor! İtfaiyeyi aramaya gerek yok, sadece tadını çıkar.", i: "🚒", fx: "fire" },
+        'passion-passion-love': { t: "Derin Bağ", d: "Sadece tensel değil, ruhsal bir çekim de var.", i: "🔗", fx: "heart" },
+        'passion-passion-attention': { t: "Sahne Işığı", d: "Gözlerini senden alamıyor. Bugün ekstra seksisin.", i: "😎", fx: "fire" },
+        'passion-passion-sweet': { t: "Çikolatalı Çilek", d: "Hem ateşli hem tatlı. Dayanılmaz kombinasyon.", i: "🍓", fx: "fire" },
+        'passion-passion-trip': { t: "Kaos Teorisi", d: "Gerginlik cinsel çekimi artırıyor. Barışma seksine hazır ol.", i: "💥", fx: "fire" },
+
+        'passion-love-passion': { t: "Bitmeyen Gece", d: "Bu gece uyku yok. Enerjini topla!", i: "🌙", fx: "fire" },
+        'passion-love-attention': { t: "Romantik Jön", d: "Sana film yıldızıymışsın gibi davranacak.", i: "🎬", fx: "sparkle" },
+        'passion-love-sweet': { t: "Balayı Modu", d: "Yeni evliler gibi. Sürekli el ele, göz göze.", i: "🏝️", fx: "heart" },
+        'passion-love-trip': { t: "Zor Aşk", d: "Ulaşılmazı oynuyorsun, bu onu çıldırtıyor.", i: "👠", fx: "fire" },
+
+        'passion-attention-passion': { t: "Star Sensin", d: "Seni hayranlıkla izliyor. Bugün ne dersen o.", i: "🌟", fx: "fire" },
+        'passion-attention-love': { t: "İdeal Koca", d: "Hem arzuluyor, hem ilgileniyor, hem seviyor.", i: "✅", fx: "heart" },
+        'passion-attention-sweet': { t: "Flörtöz", d: "Sanki seni ilk kez tavlamaya çalışıyor gibi.", i: "😉", fx: "sparkle" },
+        'passion-attention-trip': { t: "Kıskançlık Krizi", d: "İlgiyi başkasına verirsen olay çıkar. Sadece ona bak!", i: "😠", fx: "fire" },
+
+        'passion-sweet-passion': { t: "Şekerli Ateş", d: "Tatlı dille yılanı deliğinden, kocayı evden çıkarır.", i: "🐍", fx: "fire" },
+        'passion-sweet-love': { t: "Yumuşak Güç", d: "Onu parmağında oynatıyorsun ve bu hoşuna gidiyor.", i: "☝️", fx: "sparkle" },
+        'passion-sweet-attention': { t: "Centilmen", d: "Kapını açacak, sandalyeni çekecek. Şık hareketler.", i: "🎩", fx: "sparkle" },
+        'passion-sweet-trip': { t: "Tuzlu Karamel", d: "Önce tatlı, sonra hafif bir atarlanma. Kafası karıştı.", i: "🥨", fx: "rain" },
+
+        'passion-trip-passion': { t: "Fırtına Öncesi", d: "Sessizlik var ama büyük bir patlama geliyor.", i: "🌪️", fx: "fire" },
+        'passion-trip-love': { t: "Tutkulu Barışma", d: "Tartışma bitti, şimdi sevme zamanı.", i: "🫂", fx: "heart" },
+        'passion-trip-attention': { t: "Sorgu Odası", d: "'Neden yüzüme bakmıyorsun?' diye darlayabilir.", i: "🤔", fx: "rain" },
+        'passion-trip-sweet': { t: "Bipolar Ayıcık", d: "Bir kükrüyor bir sarılıyor. İdare et artık.", i: "🐻", fx: "rain" },
+        'passion-trip-trip': { t: "Soğuk Savaş", d: "Evde buz gibi rüzgarlar esiyor ama gözü hala sende.", i: "❄️", fx: "rain" },
+
+        // --- ✨ İLGİ (ATTENTION) BAŞLANGIÇLARI ---
+        'attention-attention-attention': { t: "Evrenin Kraliçesi", d: "Bütün dünya senin etrafında dönüyor. Keyfini sür!", i: "👑", fx: "sparkle" },
+        'attention-attention-love': { t: "Sevgi Pıtırcığı", d: "Sürekli 'Seni Seviyorum' mesajları atacak.", i: "💬", fx: "heart" },
+        'attention-attention-passion': { t: "Göz Hapsi", d: "Tuvalete gitse bile seni düşünüyor.", i: "💭", fx: "fire" },
+        'attention-attention-sweet': { t: "Hizmetkar", d: "Çayını, kahveni getirecek. Bugün senin günün.", i: "☕", fx: "sparkle" },
+        'attention-attention-trip': { t: "Aşırı Doz", d: "Çok ilgi gösterdi şımardın mı? Biraz nazlanıyorsun.", i: "💅", fx: "rain" },
+
+        'attention-love-attention': { t: "İlgi Manyağı", d: "Sürekli ilgi bekliyorsun ve o da veriyor. Mutlu son.", i: "🥰", fx: "heart" },
+        'attention-love-passion': { t: "Romantik Sürpriz", d: "Beklemediğin bir anda seni şaşırtacak.", i: "🎉", fx: "heart" },
+        'attention-love-sweet': { t: "Huzurlu Yuva", d: "Evde battaniye, film ve kucaklaşma.", i: "🏠", fx: "heart" },
+        'attention-love-trip': { t: "Sebepsiz Trip", d: "Her şey mükemmelken arıza çıkardın. Bravo.", i: "🤷‍♂️", fx: "rain" },
+
+        'attention-passion-attention': { t: "Spot Işıkları", d: "Bugün çok güzelsin ve o bunun farkında.", i: "💃", fx: "fire" },
+        'attention-passion-love': { t: "Hayatının Aşkı", d: "Sana bakıp şükrediyor. Değerini bil.", i: "🙏", fx: "heart" },
+        'attention-passion-sweet': { t: "Çapkın Bakışlar", d: "Kalabalıkta sana göz kırpacak.", i: "😉", fx: "fire" },
+        'attention-passion-trip': { t: "Kıskançlık", d: "İlgiyi başkasına verirsen olay çıkar.", i: "😒", fx: "fire" },
+
+        'attention-sweet-attention': { t: "Prenses", d: "Elini sıcak sudan soğuk suya sokmayacak.", i: "✨", fx: "sparkle" },
+        'attention-sweet-love': { t: "Şefkat", d: "Saçlarını tarayabilir veya oje sürebilir.", i: "💅", fx: "heart" },
+        'attention-sweet-passion': { t: "Tatlı Kaçamak", d: "Senin için işten erken gelebilir.", i: "🏃", fx: "fire" },
+        'attention-sweet-trip': { t: "Nazlı Bebek", d: "İlgi istiyorsun ama belli etmiyorsun.", i: "👶", fx: "rain" },
+
+        'attention-trip-attention': { t: "Kısır Döngü", d: "İlgi gösteriyor, trip atıyorsun, yine ilgi gösteriyor. Yorulmadı mı?", i: "🔄", fx: "rain" },
+        'attention-trip-love': { t: "Affediş", d: "Hatasını anladı, gönlünü almaya çalışıyor.", i: "🎁", fx: "heart" },
+        'attention-trip-passion': { t: "Gergin Bekleyiş", d: "Sessizce sakinleşmeni bekliyor.", i: "⏳", fx: "fire" },
+        'attention-trip-sweet': { t: "Yavru Köpek", d: "Sana masum masum bakarak kızgınlığını geçirmeye çalışıyor.", i: "🐶", fx: "sparkle" },
+        'attention-trip-trip': { t: "Sessiz Gemi", d: "Kocan şu an neyi yanlış yaptığını düşünüyor. Derin sessizlik.", i: "😶", fx: "rain" },
+
+        // --- 🍫 TATLI (SWEET) BAŞLANGIÇLARI ---
+        'sweet-sweet-sweet': { t: "Diyabet Uyarısı", d: "Aşırı dozda tatlılık! Miden bulanabilir.", i: "🍩", fx: "sparkle" },
+        'sweet-sweet-love': { t: "Pamuk Şeker", d: "Çok yumuşak, çok tatlı ve huzurlu bir mod.", i: "☁️", fx: "heart" },
+        'sweet-sweet-passion': { t: "Afrodizyak", d: "Tatlı yiyelim tatlı... devamını sen anladın.", i: "💋", fx: "fire" },
+        'sweet-sweet-attention': { t: "Bonkör", d: "Sana en sevdiğin tatlıyı alacak.", i: "🍰", fx: "sparkle" },
+        'sweet-sweet-trip': { t: "Gizli Şeker", d: "Yüzüne gülüyor ama içten içe bir şeye bozulmuş.", i: "🍋", fx: "rain" },
+
+        'sweet-love-sweet': { t: "Mutluluk", d: "Sadece gülümseme ve neşe dolu bir an.", i: "😊", fx: "heart" },
+        'sweet-love-passion': { t: "Sıcak Çikolata", d: "İçini ısıtan bir sevgi ve tutku.", i: "☕", fx: "heart" },
+        'sweet-love-attention': { t: "İyi Hissettiren", d: "Sana kendini çok özel hissettirecek.", i: "🌈", fx: "sparkle" },
+        'sweet-love-trip': { t: "Alınganlık", d: "Şaka yaptı ama sen ciddiye aldın. Ortam gerildi.", i: "😐", fx: "rain" },
+
+        'sweet-passion-sweet': { t: "Öpücük", d: "Dudağından öpücük eksik olmayacak.", i: "😘", fx: "fire" },
+        'sweet-passion-love': { t: "Genç Aşıklar", d: "Parkta el ele yürüyen liseliler gibisiniz.", i: "👫", fx: "heart" },
+        'sweet-passion-attention': { t: "Göz Bebeği", d: "Sana bakarken gözleri parlıyor.", i: "✨", fx: "fire" },
+        'sweet-passion-trip': { t: "Kıskanç Tatlılık", d: "Seni kıskanıyor ama bunu şakaya vuruyor.", i: "😏", fx: "fire" },
+
+        'sweet-attention-sweet': { t: "Şımarık", d: "Ne istesen 'Tamam hayatım' diyor.", i: "🆗", fx: "sparkle" },
+        'sweet-attention-love': { t: "Huzur", d: "Kavgasız, gürültüsüz, mis gibi bir gün.", i: "🍃", fx: "heart" },
+        'sweet-attention-passion': { t: "Sürpriz", d: "Seni yemeğe çıkarabilir.", i: "🍽️", fx: "fire" },
+        'sweet-attention-trip': { t: "Yanlış Anlama", d: "İyi niyetle bir şey yaptı ama sen ters anladın.", i: "🤦‍♂️", fx: "rain" },
+
+        'sweet-trip-sweet': { t: "Barış Çubuğu", d: "Küs kalamıyorsunuz. Hemen barışıldı.", i: "🤝", fx: "sparkle" },
+        'sweet-trip-love': { t: "Duygusal", d: "Gözlerin doldu, o da dayanamadı sarıldı.", i: "😢", fx: "heart" },
+        'sweet-trip-passion': { t: "İnatçı", d: "Hem inatlaşıyorsunuz hem de birbirinizi istiyorsunuz.", i: "🐂", fx: "fire" },
+        'sweet-trip-attention': { t: "Çaba", d: "Gönlünü almak için şebeklik yapıyor.", i: "🤪", fx: "sparkle" },
+        'sweet-trip-trip': { t: "Pasif Agresif", d: "Gülerek laf sokuyorsunuz birbirinize.", i: "😬", fx: "rain" },
+
+        // --- 💧 TRİP (TRIP) BAŞLANGIÇLARI ---
+        'trip-trip-trip': { t: "Kıyamet", d: "Evde sirenler çalıyor! Sığınaklara kaçın!", i: "🚨", fx: "rain" },
+        'trip-trip-love': { t: "Zorla Güzellik", d: "Zorla kendini sevdirmeye çalışıyor ama sen yüz vermiyorsun.", i: "😒", fx: "rain" },
+        'trip-trip-passion': { t: "Patlamaya Hazır", d: "Sinirden titriyorsun ama bu onu tahrik ediyor olabilir.", i: "💣", fx: "fire" },
+        'trip-trip-attention': { t: "Beni Gör!", d: "İlgi çekmek için ortalığı yıktın. Başardın.", i: "📢", fx: "rain" },
+        'trip-trip-sweet': { t: "Timsah Gözyaşları", d: "Ağlayarak istediğini yaptırdın. Tehlikeli oyunlar.", i: "🐊", fx: "rain" },
+
+        'trip-love-trip': { t: "Kararsız", d: "Sevsem mi dövsem mi? Bilemiyorsun.", i: "⚖️", fx: "rain" },
+        'trip-love-passion': { t: "Barışma Seksi", d: "En ateşlisi budur. Kavga bitti, şov başladı.", i: "🛌", fx: "fire" },
+        'trip-love-attention': { t: "Telafi", d: "Hatasını anladı, pervane oldu.", i: "🚁", fx: "heart" },
+        'trip-love-sweet': { t: "Yumuşama", d: "Yelkenleri suya indirdin. Affedildi.", i: "🏳️", fx: "heart" },
+
+        'trip-passion-trip': { t: "Elektrik", d: "Aranızdaki gerilim hat safhada. Dokunsan çarpılırsın.", i: "⚡", fx: "fire" },
+        'trip-passion-love': { t: "Tutkulu Kavga", d: "Bağırış çağırış ama aslında birbirinize aşıksınız.", i: "🗣️", fx: "fire" },
+        'trip-passion-attention': { t: "Kıskandırma", d: "Başkasına güldün, o delirdi. Şimdi hesap ver.", i: "🕵️", fx: "fire" },
+        'trip-passion-sweet': { t: "Buz ve Ateş", d: "Bir soğuk yapıyorsun bir sıcak. Adam hasta oldu.", i: "🤒", fx: "rain" },
+
+        'trip-attention-trip': { t: "Doyumsuz", d: "Ne yapsa yaranamıyor. Bugün zor gün.", i: "😤", fx: "rain" },
+        'trip-attention-love': { t: "Duygu Sömürüsü", d: "'Beni sevmiyor musun?' diyerek köşeye sıkıştırdın.", i: "😿", fx: "rain" },
+        'trip-attention-passion': { t: "İntikam", d: "Seni üzdüğü için süründürüyorsun.", i: "😈", fx: "fire" },
+        'trip-attention-sweet': { t: "Kandırıkçı", d: "Trip atar gibi yapıp güldün.", i: "😝", fx: "sparkle" },
+
+        'trip-sweet-trip': { t: "Dengesiz", d: "Şeker gibisin ama zehirli. Yaklaşmak riskli.", i: "🍄", fx: "rain" },
+        'trip-sweet-love': { t: "Kırık Kalp", d: "Onu üzdün, şimdi gönlünü alman lazım.", i: "💔", fx: "rain" },
+        'trip-sweet-passion': { t: "Tuzak", d: "Tatlı dille kandırıp tuzağına düşürdün.", i: "🕸️", fx: "fire" },
+        'trip-sweet-attention': { t: "Naz", d: "Aslında kızgın değilsin, sadece naz yapıyorsun.", i: "😽", fx: "sparkle" }
+    };
+
+    function addToCauldron(ingId) {
+        if (cauldronIngredients.length >= maxIngredients) {
+            const c = document.getElementById('main-cauldron');
+            if(c) { c.classList.add('shaking'); setTimeout(()=>c.classList.remove('shaking'), 500); }
+            return;
+        }
+        cauldronIngredients.push(ingId);
+        updateCauldronVisuals();
+    }
+
+    function updateCauldronVisuals() {
+        const liquid = document.querySelector('.liquid-surface');
+        const previewArea = document.getElementById('cauldron-preview');
+        const mixBtn = document.getElementById('mix-btn');
+
+        if (cauldronIngredients.length > 0) {
+            mixBtn.classList.remove('disabled');
+            let lastIng = cauldronIngredients[cauldronIngredients.length-1];
+            liquid.style.background = ingredientData[lastIng].color;
+            liquid.style.height = `${40 + (cauldronIngredients.length * 15)}%`;
+            liquid.style.boxShadow = `0 -5px 20px ${ingredientData[lastIng].color}`;
+        } else {
+            mixBtn.classList.add('disabled');
+            liquid.style.background = "#333";
+            liquid.style.height = "20%";
+            liquid.style.boxShadow = "none";
+        }
+
+        previewArea.innerHTML = '';
+        cauldronIngredients.forEach(id => {
+            const miniItem = document.createElement('div');
+            miniItem.className = 'mini-item';
+            miniItem.innerText = ingredientData[id].icon;
+            previewArea.appendChild(miniItem);
+        });
+    }
+
+    function brewPotion() {
+        if (cauldronIngredients.length === 0) return;
+        const cauldron = document.getElementById('main-cauldron');
+        const mixBtn = document.getElementById('mix-btn');
+        mixBtn.classList.add('disabled'); 
+        cauldron.classList.add('shaking');
+
+        setTimeout(() => {
+            cauldron.classList.remove('shaking');
+            showPotionResult();
+        }, 1500);
+    }
+
+    function showPotionResult() {
+        const recipeKey = cauldronIngredients.join('-');
+        let result = potionRecipes[recipeKey];
+
+        // EĞER KOMBİNASYON LİSTEDE YOKSA (HATA ÖNLEYİCİ)
+        if (!result) {
+            const first = ingredientData[cauldronIngredients[0]].icon;
+            const last = ingredientData[cauldronIngredients[cauldronIngredients.length-1]].icon;
+            
+            result = { 
+                t: "Gizemli Karışım", 
+                d: `Bu karışım laboratuvarı şaşırttı! ${first} ile başladın, ${last} ile bitirdin. Kocan şokta.`, 
+                i: "🔮", 
+                fx: "sparkle" 
+            };
+        }
+
+        document.getElementById('result-icon').innerText = result.i;
+        document.getElementById('result-title').innerText = result.t;
+        document.getElementById('result-desc').innerText = result.d;
+
+        lastResultText = `Aşk Laboratuvarı Raporu: 🧪\n\n*${result.t}* ${result.i}\n"${result.d}"\n\n-Sumru'nun Deneyi`;
+
+        playResultEffect(result.fx);
+        document.getElementById('potion-result-overlay').classList.add('active');
+        
+        cauldronIngredients = [];
+        updateCauldronVisuals();
+    }
+
+    function playResultEffect(type) {
+        const container = document.getElementById('result-effect-container');
+        if(!container) return;
+        container.innerHTML = ''; 
+
+        if (type === 'heart') {
+            for(let i=0; i<30; i++) {
+                let el = document.createElement('div'); el.className = 'effect-heart'; el.innerText = '❤️';
+                el.style.left = Math.random()*100 + '%'; el.style.animationDuration = (Math.random()*2+2)+'s';
+                container.appendChild(el);
+            }
+        } else if (type === 'fire') {
+            let el = document.createElement('div'); el.className = 'effect-fire';
+            container.appendChild(el);
+        } else if (type === 'rain') {
+            for(let i=0; i<50; i++) {
+                let el = document.createElement('div'); el.className = 'effect-rain';
+                el.style.left = Math.random()*100 + '%'; el.style.animationDuration = (Math.random()*0.5+0.5)+'s';
+                container.appendChild(el);
+            }
+        } else if (type === 'sparkle') {
+             for(let i=0; i<40; i++) {
+                let el = document.createElement('div'); el.className = 'confetti'; el.innerText = '✨';
+                el.style.left = '50%'; el.style.top = '50%';
+                el.style.setProperty('--x', (Math.random()-0.5)*800+'px');
+                el.style.setProperty('--y', (Math.random()-0.5)*800+'px');
+                container.appendChild(el);
+            }
+        }
+        setTimeout(() => { container.innerHTML = ''; }, 4000);
+    }
+
+    function shareResultOnWP() {
+        if(!lastResultText) return;
+        window.location.href = `https://api.whatsapp.com/send?phone=905315581447&text=${encodeURIComponent(lastResultText)}`;
+    }
+
+    function closeResultOverlay() {
+        document.getElementById('potion-result-overlay').classList.remove('active');
+        const c = document.getElementById('result-effect-container');
+        if(c) c.innerHTML = '';
+    }
+
+        /* =================================================================
+       APP: NEON GARDEN (PREMIUM HYBRID: COSMIC & VINE) 🌌🌿
+       ================================================================= */
+    let gardenCanvas, gCtx;
+    let particlesArray = [];
+    let hue = 0;
+    let gardenAnimationId;
+    let isVineMode = false; // Mod kontrolü (False: Cosmic, True: Sarmaşık)
+    
+    // Mouse hızı hesaplama için
+    let mouse = { x: undefined, y: undefined, prevX: undefined, prevY: undefined };
+
+    function initGarden() {
+        gardenCanvas = document.getElementById('garden-canvas');
+        if(!gardenCanvas) return;
+
+        gCtx = gardenCanvas.getContext('2d');
+        gardenCanvas.width = window.innerWidth;
+        gardenCanvas.height = window.innerHeight;
+        
+        // Premium Parlama Efekti
+        gCtx.globalCompositeOperation = 'lighter';
+
+        window.addEventListener('resize', function(){
+            gardenCanvas.width = window.innerWidth;
+            gardenCanvas.height = window.innerHeight;
+            gCtx.globalCompositeOperation = 'lighter';
+        });
+
+        // --- ÇİFT TIKLAMA İLE MOD DEĞİŞTİRME ---
+        gardenCanvas.addEventListener('dblclick', function(e){
+            isVineMode = !isVineMode; // Modu tersine çevir
+            
+            // Kullanıcıya bilgi ver
+            const modeName = isVineMode ? "🌿 Sarmaşık Modu" : "🌌 Kozmik Akış";
+            showModeToast(modeName);
+            
+            // Mod değişince renk tonunu ayarla
+            hue = isVineMode ? 100 : 200; 
+        });
+
+        // Dokunmatik ve Mouse Hareketleri
+        const events = ['mousemove', 'touchmove'];
+        events.forEach(evt => {
+            gardenCanvas.addEventListener(evt, function(e){
+                const hint = document.getElementById('garden-hint');
+                if(hint) hint.style.opacity = '0';
+                
+                // Hız hesaplaması
+                mouse.prevX = mouse.x || e.x;
+                mouse.prevY = mouse.y || e.y;
+
+                if(e.type === 'touchmove') {
+                    mouse.x = e.touches[0].clientX;
+                    mouse.y = e.touches[0].clientY;
+                } else {
+                    mouse.x = e.x;
+                    mouse.y = e.y;
                 }
 
-                cal.appendChild(dayEl);
-            }
-        }
+                const vx = mouse.x - mouse.prevX;
+                const vy = mouse.y - mouse.prevY;
 
-        function notifyHusbandStatus() {
-            if(!window.currentLunaMsg) return alert("Döngü verisi yok.");
-            window.location.href = `https://api.whatsapp.com/send?phone=905315581447&text=${encodeURIComponent(window.currentLunaMsg)}`;
-        }
+                // MODA GÖRE PARÇACIK ÜRET
+                if (isVineMode) {
+                    // Sarmaşık Modu: Daha az ama kalıcı parçacıklar
+                    particlesArray.push(new VineParticle(mouse.x, mouse.y));
+                } else {
+                    // Kozmik Mod: Hıza duyarlı akışkan parçacıklar
+                    for(let i=0; i<3; i++) {
+                        particlesArray.push(new CosmicParticle(mouse.x, mouse.y, vx, vy));
+                    }
+                }
+            });
+        });
 
-        // KALP PATLAMASI EFEKTİ 💥
-        function createHeartExplosion() {
-            const modal = document.getElementById('app-luna');
-            const colors = ['❤️', '🩸', '💖', '✨'];
+        // Mouse bırakılınca konumu sıfırla
+        const endEvents = ['mouseup', 'touchend'];
+        endEvents.forEach(evt => {
+            gardenCanvas.addEventListener(evt, () => {
+                mouse.x = undefined; mouse.y = undefined;
+            });
+        });
+
+        if(gardenAnimationId) cancelAnimationFrame(gardenAnimationId);
+        animateGarden();
+    }
+
+    // --- SINIF 1: COSMIC PARTICLE (Akışkan Uzay) ---
+    class CosmicParticle {
+        constructor(x, y, vx, vy){
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 4 + 1;
+            // Hız faktörü (Sürükleme hızına göre fırlat)
+            this.speedX = (vx * 0.4) + (Math.random() * 2 - 1);
+            this.speedY = (vy * 0.4) + (Math.random() * 2 - 1);
+            // Kozmik Renkler (Mavi, Mor, Pembe)
+            this.color = 'hsl(' + (hue + Math.random() * 50) + ', 100%, 60%)';
+            this.life = 1.0;
+            this.decay = Math.random() * 0.015 + 0.005; // Hızlı sönme
+        }
+        update(){
+            this.x += this.speedX;
+            this.y += this.speedY;
+            // Sürtünme (Yavaşlama)
+            this.speedX *= 0.95;
+            this.speedY *= 0.95;
+            if (this.size > 0.1) this.size -= 0.05;
+            this.life -= this.decay;
+        }
+        draw(){
+            gCtx.fillStyle = this.color;
+            gCtx.beginPath();
+            gCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            gCtx.shadowBlur = 10;
+            gCtx.shadowColor = this.color;
+            gCtx.fill();
+        }
+    }
+
+    // --- SINIF 2: VINE PARTICLE (Sarmaşık) ---
+    class VineParticle {
+        constructor(x, y){
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 8 + 3;
+            // Yavaş ve kıvrılan hareket
+            this.speedX = Math.random() * 2 - 1;
+            this.speedY = Math.random() * 2 - 1;
+            // Doğa Renkleri (Yeşil, Sarı, Turuncu)
+            this.color = 'hsl(' + (hue + Math.random() * 20) + ', 100%, 50%)';
+            this.angle = Math.random() * 6.2;
+            this.angleSpeed = Math.random() * 0.1 - 0.05;
+            this.life = 1.0;
+            this.decay = Math.random() * 0.002 + 0.001; // ÇOK yavaş sönme (Kalıcı iz)
+        }
+        update(){
+            this.angle += this.angleSpeed;
+            this.x += Math.sin(this.angle) * 1.5; // Kıvrılma
+            this.y += Math.cos(this.angle) * 1.5;
+            if (this.size > 0.1) this.size -= 0.02;
+            this.life -= this.decay;
+        }
+        draw(){
+            gCtx.fillStyle = this.color;
+            gCtx.beginPath();
+            gCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            gCtx.shadowBlur = 20; // Yoğun parlama
+            gCtx.shadowColor = this.color;
+            gCtx.fill();
+        }
+    }
+
+    function animateGarden(){
+        // ARKAPLAN VE İZ BIRAKMA AYARI
+        gCtx.globalCompositeOperation = 'source-over';
+        
+        // Sarmaşık modunda izler daha uzun kalır (Daha az sileriz)
+        // Kozmik modda daha hızlı silinir (Akışkanlık için)
+        const fadeAlpha = isVineMode ? 0.03 : 0.1;
+        
+        // LOŞ ARKAPLAN (Göz yormayan derin mavi-siyah)
+        const gradient = gCtx.createRadialGradient(
+            gardenCanvas.width/2, gardenCanvas.height/2, 0,
+            gardenCanvas.width/2, gardenCanvas.height/2, gardenCanvas.width
+        );
+        gradient.addColorStop(0, `rgba(10, 20, 40, ${fadeAlpha})`); // Merkez (Hafif Mavi)
+        gradient.addColorStop(1, `rgba(0, 0, 0, ${fadeAlpha})`);     // Kenarlar (Siyah)
+        
+        gCtx.fillStyle = gradient;
+        gCtx.fillRect(0, 0, gardenCanvas.width, gardenCanvas.height);
+        
+        // Çizim Modu
+        gCtx.globalCompositeOperation = 'lighter';
+
+        for (let i = 0; i < particlesArray.length; i++){
+            particlesArray[i].update();
+            particlesArray[i].draw();
             
-            for(let i=0; i<60; i++) { 
-                const c = document.createElement('div'); 
-                c.classList.add('confetti'); 
-                c.innerText = colors[Math.floor(Math.random() * colors.length)];
-                c.style.left = '50%'; c.style.top = '40%'; // Ayın olduğu yerden patlasın
-                c.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                
-                // Rastgele dağılım
-                c.style.setProperty('--x', (Math.random() - 0.5) * 600 + 'px'); 
-                c.style.setProperty('--y', (Math.random() - 0.5) * 600 + 'px'); 
-                c.style.setProperty('--r', (Math.random() * 720) + 'deg'); 
-                
-                modal.appendChild(c); 
-                setTimeout(() => c.remove(), 2500); 
+            if (particlesArray[i].life <= 0 || particlesArray[i].size <= 0.1){
+                particlesArray.splice(i, 1);
+                i--;
             }
         }
+        
+        // Renk döngüsü
+        hue += 0.5;
+        
+        gardenAnimationId = requestAnimationFrame(animateGarden);
+    }
+
+    // MOD DEĞİŞİM BİLDİRİMİ (TOAST)
+    function showModeToast(text) {
+        let toast = document.getElementById('garden-toast');
+        if(!toast) {
+            toast = document.createElement('div');
+            toast.id = 'garden-toast';
+            toast.style.position = 'absolute';
+            toast.style.top = '10%';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.color = 'white';
+            toast.style.background = 'rgba(255,255,255,0.1)';
+            toast.style.padding = '10px 20px';
+            toast.style.borderRadius = '20px';
+            toast.style.backdropFilter = 'blur(10px)';
+            toast.style.fontSize = '14px';
+            toast.style.pointerEvents = 'none';
+            toast.style.transition = 'opacity 0.5s';
+            toast.style.zIndex = '100';
+            document.querySelector('#app-garden .modal-content').appendChild(toast);
+        }
+        toast.innerText = text;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+    }
+
+    function clearGarden() {
+        if(gCtx) {
+             gCtx.globalCompositeOperation = 'source-over';
+             gCtx.fillStyle = '#050a14';
+             gCtx.fillRect(0, 0, gardenCanvas.width, gardenCanvas.height);
+             gCtx.globalCompositeOperation = 'lighter';
+        }
+        particlesArray = [];
+        const hint = document.getElementById('garden-hint');
+        if(hint) hint.style.opacity = '1';
+    }
+    
+    function saveGarden() {
+        if(!gardenCanvas) return;
+        gCtx.globalCompositeOperation = 'destination-over';
+        gCtx.fillStyle = '#050a14';
+        gCtx.fillRect(0, 0, gardenCanvas.width, gardenCanvas.height);
+        const link = document.createElement('a');
+        link.download = 'neon-sanat.png';
+        link.href = gardenCanvas.toDataURL();
+        link.click();
+        gCtx.globalCompositeOperation = 'lighter';
+        alert("Eserin kaydedildi! 📸");
+    }
+
+    /* --- ANA YÖNETİCİ (GÜNCEL) --- */
+    window.openApp = function(id) {
+        document.querySelectorAll('.app-modal').forEach(modal => modal.classList.remove('active'));
+        const target = document.getElementById('app-' + id);
+        if(target) target.classList.add('active');
+        
+        if(id === 'garden') initGarden();
+        if(id === 'stock') initStockApp();
+        if(id === 'luna') initLuna();
+        if(id === 'quiz') restartQuiz();
+        if(id === 'scratch') initScratchCard();
+        if(id === 'panic') resetPanicMode();
+        if(id === 'zen') switchZenTab('breath');
+        if(id === 'lovelab') { }
+        if(id === 'messages') loadMessages();
+        if(id === 'mail') loadEmails();
+        if(id === 'phone') loadCalls();
+        if(id === 'heart') resetHeartApp();
+    };
+
+
+        /* --- FİNAL UYGULAMA YÖNETİCİSİ (TÜM UYGULAMALAR BURADA) --- */
+    window.openApp = function(id) {
+        // 1. Önce açıklan tüm pencereleri kapat (Çakışmayı önle)
+        document.querySelectorAll('.app-modal').forEach(modal => modal.classList.remove('active'));
+        
+        // 2. Tıklanan uygulamanın penceresini bul ve aç
+        const target = document.getElementById('app-' + id);
+        if(target) {
+            target.classList.add('active');
+        } else {
+            console.error("Uygulama bulunamadı: app-" + id);
+            return;
+        }
+        
+        // 3. UYGULAMA BAŞLATICILARI (Hepsi burada olmalı)
+        
+        // Dock Uygulamaları (Telefon, Mesaj, Mail, Kalp)
+        if(id === 'messages') loadMessages();
+        if(id === 'mail') loadEmails();
+        if(id === 'phone') loadCalls();
+        if(id === 'heart') resetHeartApp();
+
+        // Ana Ekran Uygulamaları
+        if(id === 'garden') initGarden(); // Neon Garden
+        if(id === 'stock') initStockApp(); // Borsa
+        if(id === 'luna') initLuna(); // Luna
+        if(id === 'quiz') restartQuiz(); // Quiz
+        if(id === 'lovelab') { /* Love Lab Hazır */ } 
+        if(id === 'scratch') initScratchCard(); // Kazı Kazan
+        if(id === 'panic') resetPanicMode(); // Panik Butonu
+        if(id === 'zen') switchZenTab('breath'); // Zen Modu
+        
+        // Diğerleri (Varsa)
+        if(id === 'photos') { /* Albüm */ }
+        if(id === 'notes') { /* Notlar */ }
+    };
+
 
 
 
